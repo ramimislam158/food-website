@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOSHI ヨシ — Product Details</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .product-details-container {
+      max-width: 1200px;
+      margin: 120px auto 80px;
+      padding: 0 24px;
+    }
+    .product-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      background: var(--black);
+      border: 1px solid rgba(255,191,0,0.18);
+      border-radius: 24px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+    .product-image-section {
+      background: linear-gradient(135deg, #1a1a1a, #222222);
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+    }
+    .product-image {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .product-image-placeholder {
+      width: 100%;
+      max-width: 400px;
+      height: 300px;
+      background: #222;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+    }
+    .product-info-section {
+      padding: 40px 40px 40px 0;
+    }
+    .product-category {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(255,191,0,0.15);
+      border: 1px solid rgba(255,191,0,0.18);
+      border-radius: 50px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #FFBF00;
+      margin-bottom: 20px;
+    }
+    .product-name {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .product-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #FFBF00;
+      margin-bottom: 24px;
+    }
+    .product-description {
+      color: rgba(255,255,255,0.45);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 32px;
+      border-top: 1px solid rgba(255,191,0,0.18);
+      padding-top: 24px;
+    }
+    .order-section {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,191,0,0.18);
+      border-radius: 16px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    .order-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #FFBF00;
+      margin-bottom: 16px;
+    }
+    .order-controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 50px;
+      padding: 5px;
+    }
+    .quantity-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #222;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #FFBF00;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .quantity-btn:hover {
+      background: #FFBF00;
+      color: #000;
+    }
+    .quantity-input {
+      width: 50px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+    .special-requests {
+      flex: 1;
+      min-width: 200px;
+    }
+    .special-requests input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 50px;
+      padding: 10px 16px;
+      color: #fff;
+      font-size: 0.85rem;
+    }
+    .customer-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .customer-info input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 12px;
+      color: #fff;
+    }
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-top: 1px solid rgba(255,191,0,0.18);
+      margin-bottom: 20px;
+    }
+    .total-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.45);
+    }
+    .total-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #FFBF00;
+    }
+    .btn-add-to-cart {
+      width: 100%;
+      padding: 16px;
+      background: #FFBF00;
+      color: #000;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 12px;
+    }
+    .btn-add-to-cart:hover {
+      box-shadow: 0 0 30px rgba(255,191,0,0.6);
+      transform: translateY(-2px);
+    }
+    .btn-add-to-cart:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .btn-view-cart {
+      width: 100%;
+      padding: 14px;
+      background: transparent;
+      color: #FFBF00;
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid #FFBF00;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn-view-cart:hover {
+      background: rgba(255,191,0,0.1);
+      transform: translateY(-2px);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      color: rgba(255,255,255,0.45);
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+    .back-link:hover {
+      color: #FFBF00;
+    }
+    .cart-success {
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      text-align: center;
+    }
+    .cart-error {
+      background: rgba(248,113,113,0.1);
+      border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      text-align: center;
+    }
+    .loader-ring {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #222;
+      border-top-color: #FFBF00;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 768px) {
+      .product-details-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .product-info-section {
+        padding: 30px;
+      }
+      .product-name {
+        font-size: 1.8rem;
+      }
+      .customer-info {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-logo">
+    <span class="logo-en">YOSHI</span>
+    <span class="logo-jp">ヨシ</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html#menu">Menu</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#reserve">Reserve</a></li>
+    <li><a href="my-orders.html">My Orders</a></li>
+    <li><a href="/admin/login.html" class="nav-admin">Admin</a></li>
+  </ul>
+  <a href="cart.html" class="nav-cta">🛒 Cart (<span id="cartCount">0</span>)</a>
+  <button class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="product-details-container" id="productDetailsContainer">
+  <a href="index.html#menu" class="back-link">← Back to Menu</a>
+  <div id="productContent" style="text-align:center;padding:60px;">
+    <div class="loader-ring"></div>
+    <p>Loading product details...</p>
+  </div>
+</div>
+
+<script>
+  // Get product ID from URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id');
+  
+  let currentProduct = null;
+  let currentQuantity = 1;
+  
+  // Update cart count in nav
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('yoshi_cart')) || [];
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const cartCountEl = document.getElementById('cartCount');
+    if (cartCountEl) cartCountEl.textContent = count;
+  }
+  
+  if (productId) {
+    loadProductDetails(productId);
+  } else {
+    document.getElementById('productContent').innerHTML = '<p style="text-align:center;padding:60px;">Product not found.</p>';
+  }
+  
+  async function loadProductDetails(id) {
+    try {
+      const res = await fetch(`/api/menu/${id}`);
+      if (!res.ok) throw new Error('Product not found');
+      currentProduct = await res.json();
+      displayProductDetails(currentProduct);
+      updateCartCount();
+    } catch (err) {
+      document.getElementById('productContent').innerHTML = `<p style="text-align:center;padding:60px;">${err.message}</p>`;
+    }
+  }
+  
+  function displayProductDetails(product) {
+    const container = document.getElementById('productContent');
+    const categoryName = getCategoryName(product.category);
+    const categoryIcon = getCategoryIcon(product.category);
+    
+    container.innerHTML = `
+      <div class="product-details-grid">
+        <div class="product-image-section">
+          ${product.imageUrl ? 
+            `<img src="${product.imageUrl}" class="product-image" alt="${escapeHtml(product.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+             <div class="product-image-placeholder" style="display:none">${categoryIcon}</div>` : 
+            `<div class="product-image-placeholder">${categoryIcon}</div>`
+          }
+        </div>
+        <div class="product-info-section">
+          <div class="product-category">${categoryIcon} ${categoryName}</div>
+          <h1 class="product-name">${escapeHtml(product.name)}</h1>
+          <div class="product-price">৳ ${product.price}</div>
+          <div class="product-description">${escapeHtml(product.description || 'No description available.')}</div>
+          
+          <div class="order-section">
+            <div class="order-title">🛒 Order Details</div>
+            <div class="customer-info">
+              <input type="text" id="customerName" placeholder="Your Full Name *" value="${localStorage.getItem('yoshi_customer_name') || ''}">
+              <input type="tel" id="customerPhone" placeholder="Phone Number *" value="${localStorage.getItem('yoshi_customer_phone') || ''}">
+            </div>
+            <div class="order-controls">
+              <div class="quantity-selector">
+                <button class="quantity-btn" onclick="changeQuantity(-1)">-</button>
+                <input type="number" id="quantity" class="quantity-input" value="1" min="1" readonly>
+                <button class="quantity-btn" onclick="changeQuantity(1)">+</button>
+              </div>
+              <div class="special-requests">
+                <input type="text" id="specialRequest" placeholder="Special requests (extra spicy, no onion, etc.)">
+              </div>
+            </div>
+            <div class="order-total">
+              <span class="total-label">Total Amount</span>
+              <span class="total-amount" id="totalAmount">৳ ${product.price}</span>
+            </div>
+            <button class="btn-add-to-cart" id="addToCartBtn" onclick="addToCart()">
+              🛒 Add to Cart
+            </button>
+            <a href="cart.html" class="btn-view-cart">
+              View Cart →
+            </a>
+            <div id="cartMessage"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  
+  function changeQuantity(delta) {
+    if (!currentProduct) return;
+    const newQty = currentQuantity + delta;
+    if (newQty >= 1 && newQty <= 99) {
+      currentQuantity = newQty;
+      document.getElementById('quantity').value = currentQuantity;
+      const total = currentProduct.price * currentQuantity;
+      document.getElementById('totalAmount').innerHTML = `৳ ${total}`;
+    }
+  }
+  
+  function addToCart() {
+    if (!currentProduct) return;
+    
+    const name = document.getElementById('customerName').value.trim();
+    const phone = document.getElementById('customerPhone').value.trim();
+    const specialRequest = document.getElementById('specialRequest').value.trim();
+    const quantity = currentQuantity;
+    
+    if (!name || !phone) {
+      showCartMessage('Please enter your name and phone number', 'error');
+      return;
+    }
+    
+    // Save customer info for later
+    localStorage.setItem('yoshi_customer_name', name);
+    localStorage.setItem('yoshi_customer_phone', phone);
+    
+    // Get existing cart
+    let cart = JSON.parse(localStorage.getItem('yoshi_cart')) || [];
+    
+    // Check if item already exists
+    const existingItemIndex = cart.findIndex(item => item.id === currentProduct._id);
+    
+    if (existingItemIndex !== -1) {
+      // Update quantity if already in cart
+      cart[existingItemIndex].quantity += quantity;
+      if (specialRequest) {
+        cart[existingItemIndex].specialRequest = specialRequest;
+      }
+    } else {
+      // Add new item to cart
+      cart.push({
+        id: currentProduct._id,
+        name: currentProduct.name,
+        price: currentProduct.price,
+        category: currentProduct.category,
+        categoryName: getCategoryName(currentProduct.category),
+        description: currentProduct.description || '',
+        imageUrl: currentProduct.imageUrl || '',
+        quantity: quantity,
+        specialRequest: specialRequest
+      });
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('yoshi_cart', JSON.stringify(cart));
+    updateCartCount();
+    
+    showCartMessage(`✅ ${currentProduct.name} added to cart!`, 'success');
+    
+    // Reset quantity to 1
+    currentQuantity = 1;
+    document.getElementById('quantity').value = 1;
+    document.getElementById('totalAmount').innerHTML = `৳ ${currentProduct.price}`;
+    document.getElementById('specialRequest').value = '';
+  }
+  
+  function showCartMessage(msg, type) {
+    const msgDiv = document.getElementById('cartMessage');
+    msgDiv.innerHTML = `<div class="${type === 'success' ? 'cart-success' : 'cart-error'}">${msg}</div>`;
+    setTimeout(() => { msgDiv.innerHTML = ''; }, 3000);
+  }
+  
+  function getCategoryName(slug) {
+    const names = { ramen: 'Ramen', rice: 'Rice', mains: 'Mains', curry: 'Curry', drinks: 'Drinks' };
+    return names[slug] || slug;
+  }
+  
+  function getCategoryIcon(slug) {
+    const icons = { ramen: '🍜', rice: '🍚', mains: '🥩', curry: '🍛', drinks: '🥤' };
+    return icons[slug] || '🍽';
+  }
+  
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+  
+  // Initial cart count update
+  updateCartCount();
+</script>
+</body>
+</html>

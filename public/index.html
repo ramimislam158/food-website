@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOSHI ヨシ — Pan-Asian Dining, Banani</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">
+    <span class="logo-en">YOSHI</span>
+    <span class="logo-jp">ヨシ</span>
+  </div>
+  <ul class="nav-links">
+  <li><a href="/">Home</a></li>
+  <li><a href="/menu.html">Menu</a></li>
+  <li><a href="/about.html">About</a></li>
+  <li><a href="/showcase.html">Showcase</a></li>
+  <li><a href="/reservation.html">Reserve</a></li>
+  <li><a href="/location.html">Location</a></li>
+  <li><a href="/admin/admin-panel.html" class="nav-admin">Admin</a></li>
+</ul>
+  <a href="/reservation.html" class="nav-cta">Book Table</a>
+  <button class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-hours">
+      <p>We are open from</p>
+      <div class="time-row"><strong>Sun–Thu:</strong>&nbsp;12:00 pm – 11:00 pm</div>
+      <div class="time-row"><strong>Fri–Sat:</strong>&nbsp;12:00 pm – 12:00 am</div>
+    </div>
+    <h1 class="hero-title">Pan-Asian<br/>dining at its<br/><em>finest.</em></h1>
+    <p class="hero-desc">Where Tokyo meets Dhaka. YOSHI brings curated pan-Asian cuisine to Banani — from 18-hour tonkotsu broths to crispy Korean bulgogi — served in under 10 minutes.</p>
+    <div class="hero-ctas">
+      <a href="reservation.html" class="btn-order"><span class="arr">↗</span>Book now</a>
+      <a href="menu.html" class="btn-menu-link">Explore our menu →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num">41+</span><span class="stat-label">Google Reviews</span></div>
+      <hr class="stat-sep"/>
+      <div class="stat-item"><span class="stat-num">30+</span><span class="stat-label">Menu Items</span></div>
+      <hr class="stat-sep"/>
+      <div class="stat-item"><span class="stat-num">10k+</span><span class="stat-label">Happy Guests</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="rating-badge">
+      <span class="rating-count">41+ Ratings</span>
+      <div class="rating-line"></div>
+      <span>⭐</span><span class="rating-num">4.7</span>
+    </div>
+    <div class="food-circle-wrap">
+      <div class="food-ring food-ring-1"></div>
+      <div class="food-ring food-ring-2"></div>
+      <div class="food-img-container">
+        <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=800&auto=format&fit=crop" alt="Signature Ramen"
+          onerror="this.style.display='none';this.parentElement.innerHTML='<div class=food-emoji-fallback>🍜</div>'"/>
+      </div>
+      <div class="deco-tl"></div><div class="deco-br"></div>
+      <div class="food-tag">
+        <span class="tag-icon">🍜</span>
+        <div><span class="tag-name">Tonkotsu Ramen</span><span class="tag-price">Signature dish · ৳580</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-content">
+    <span>Experience the finest pan-Asian cuisine at YOSHI!</span>
+  </div>
+</div>
+<!-- DYNAMIC CATEGORY SLIDERS - প্রতিটি ক্যাটাগরির জন্য আলাদা স্লাইডার -->
+<div class="category-sliders-container" id="categorySlidersContainer">
+  <div class="category-sliders-loading">Loading category sliders...</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

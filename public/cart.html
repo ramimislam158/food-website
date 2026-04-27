@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOSHI ヨシ — My Cart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .cart-container {
+      max-width: 1200px;
+      margin: 120px auto 80px;
+      padding: 0 24px;
+    }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .cart-title {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .cart-title span {
+      color: var(--amber);
+    }
+    .cart-empty {
+      text-align: center;
+      padding: 80px 20px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+    }
+    .cart-empty-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    .cart-empty h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .cart-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
+    }
+    .cart-items {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .cart-item {
+      display: flex;
+      gap: 20px;
+      padding: 20px;
+      border-bottom: 1px solid var(--glass-border);
+      transition: background 0.3s;
+    }
+    .cart-item:hover {
+      background: rgba(255,255,255,0.02);
+    }
+    .cart-item-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: var(--charcoal-2);
+    }
+    .cart-item-image-placeholder {
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      background: var(--charcoal-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+    }
+    .cart-item-details {
+      flex: 1;
+    }
+    .cart-item-name {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .cart-item-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.5;
+      max-width: 400px;
+    }
+    .cart-item-category {
+      display: inline-block;
+      padding: 2px 10px;
+      background: var(--amber-dim);
+      border-radius: 20px;
+      font-size: 0.65rem;
+      font-family: 'Syne', sans-serif;
+      color: var(--amber);
+      margin-bottom: 10px;
+    }
+    .cart-item-price {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      color: var(--amber);
+      font-size: 1rem;
+    }
+    .cart-item-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 30px;
+      padding: 4px;
+    }
+    .quantity-btn-cart {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--charcoal-3);
+      border: none;
+      color: var(--amber);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .quantity-btn-cart:hover {
+      background: var(--amber);
+      color: var(--black);
+    }
+    .cart-item-quantity input {
+      width: 40px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      color: var(--white);
+      font-weight: 600;
+    }
+    .cart-item-total {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      color: var(--amber);
+      min-width: 80px;
+      text-align: right;
+    }
+    .cart-item-remove {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+      padding: 5px;
+    }
+    .cart-item-remove:hover {
+      color: #f87171;
+    }
+    .cart-summary {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 24px;
+      position: sticky;
+      top: 100px;
+    }
+    .summary-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .summary-row.total {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid var(--glass-border);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+    .summary-row.total span:last-child {
+      color: var(--amber);
+      font-size: 1.4rem;
+    }
+    .customer-info-cart {
+      margin: 20px 0;
+    }
+    .customer-info-cart input, .customer-info-cart select {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      padding: 12px;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .customer-info-cart select option {
+      background: var(--charcoal);
+    }
+    .btn-checkout {
+      width: 100%;
+      padding: 14px;
+      background: var(--amber);
+      color: var(--black);
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+    .btn-checkout:hover {
+      box-shadow: 0 0 30px var(--amber-glow);
+      transform: translateY(-2px);
+    }
+    .btn-checkout:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .btn-continue {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .btn-continue:hover {
+      color: var(--amber);
+    }
+    .order-success-cart {
+      background: rgba(74,222,128,0.1);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+      text-align: center;
+    }
+    .loader-ring {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #222;
+      border-top-color: var(--amber);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @media (max-width: 768px) {
+      .cart-grid {
+        grid-template-columns: 1fr;
+      }
+      .cart-item {
+        flex-wrap: wrap;
+      }
+      .cart-item-actions {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: 10px;
+      }
+      .cart-item-total {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-logo">
+    <span class="logo-en">YOSHI</span>
+    <span class="logo-jp">ヨシ</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html#menu">Menu</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#reserve">Reserve</a></li>
+    <li><a href="my-orders.html">My Orders</a></li>
+    <li><a href="/admin/login.html" class="nav-admin">Admin</a></li>
+  </ul>
+  <a href="cart.html" class="nav-cta">🛒 Cart (<span id="cartCount">0</span>)</a>
+  <button class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="cart-container">
+  <div class="cart-header">
+    <h1 class="cart-title">My <span>Cart</span></h1>
+    <a href="index.html#menu" class="btn-ghost sm">← Continue Shopping</a>
+  </div>
+  
+  <div id="cartContent">
+    <div style="text-align:center;padding:60px;">
+      <div class="loader-ring"></div>
+      <p>Loading cart...</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Cart functionality
+  let cart = [];
+  
+  // Load cart from localStorage
+  function loadCart() {
+    const savedCart = localStorage.getItem('yoshi_cart');
+    if (savedCart) {
+      cart = JSON.parse(savedCart);
+    } else {
+      cart = [];
+    }
+    updateCartCount();
+    renderCart();
+  }
+  
+  // Save cart to localStorage
+  function saveCart() {
+    localStorage.setItem('yoshi_cart', JSON.stringify(cart));
+    updateCartCount();
+  }
+  
+  // Update cart count in nav
+  function updateCartCount() {
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const cartCountEl = document.getElementById('cartCount');
+    if (cartCountEl) cartCountEl.textContent = count;
+  }
+  
+  // Update quantity
+  function updateQuantity(index, newQuantity) {
+    if (newQuantity < 1) {
+      removeItem(index);
+      return;
+    }
+    if (newQuantity > 99) newQuantity = 99;
+    cart[index].quantity = newQuantity;
+    saveCart();
+    renderCart();
+  }
+  
+  // Remove item
+  function removeItem(index) {
+    if (confirm('Remove this item from cart?')) {
+      cart.splice(index, 1);
+      saveCart();
+      renderCart();
+    }
+  }
+  
+  // Get category icon
+  function getCategoryIcon(slug) {
+    const icons = { ramen: '🍜', rice: '🍚', mains: '🥩', curry: '🍛', drinks: '🥤' };
+    return icons[slug] || '🍽';
+  }
+  
+  // Render cart
+  function renderCart() {
+    const container = document.getElementById('cartContent');
+    
+    if (cart.length === 0) {
+      container.innerHTML = `
+        <div class="cart-empty">
+          <div class="cart-empty-icon">🛒</div>
+          <h3>Your cart is empty</h3>
+          <a href="index.html#menu" class="btn-primary">Browse Menu</a>
+        </div>
+      `;
+      return;
+    }
+    
+    let subtotal = 0;
+    let itemsHtml = '';
+    
+    cart.forEach((item, index) => {
+      const itemTotal = item.price * item.quantity;
+      subtotal += itemTotal;
+      
+      itemsHtml += `
+        <div class="cart-item">
+          <div class="cart-item-image-placeholder">${getCategoryIcon(item.category)}</div>
+          <div class="cart-item-details">
+            <div class="cart-item-name">${escapeHtml(item.name)}</div>
+            <div class="cart-item-desc">${escapeHtml(item.description || 'No description available.')}</div>
+            <div class="cart-item-category">${escapeHtml(item.categoryName || item.category)}</div>
+            <div class="cart-item-price">৳ ${item.price}</div>
+          </div>
+          <div class="cart-item-actions">
+            <div class="cart-item-quantity">
+              <button class="quantity-btn-cart" onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
+              <input type="number" value="${item.quantity}" min="1" max="99" readonly>
+              <button class="quantity-btn-cart" onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+            </div>
+            <div class="cart-item-total">৳ ${itemTotal}</div>
+            <button class="cart-item-remove" onclick="removeItem(${index})">🗑️</button>
+          </div>
+        </div>
+      `;
+    });
+    
+    const tax = Math.round(subtotal * 0.05);
+    const deliveryFee = subtotal > 500 ? 0 : 60;
+    const total = subtotal + tax + deliveryFee;
+    
+    // Load saved customer info
+    const savedName = localStorage.getItem('yoshi_customer_name') || '';
+    const savedPhone = localStorage.getItem('yoshi_customer_phone') || '';
+    
+    container.innerHTML = `
+      <div class="cart-grid">
+        <div class="cart-items">
+          ${itemsHtml}
+        </div>
+        <div class="cart-summary">
+          <div class="summary-title">Order Summary</div>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>৳ ${subtotal}</span>
+          </div>
+          <div class="summary-row">
+            <span>Tax (5%)</span>
+            <span>৳ ${tax}</span>
+          </div>
+          <div class="summary-row">
+            <span>Delivery Fee</span>
+            <span>৳ ${deliveryFee}</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span>৳ ${total}</span>
+          </div>
+          
+          <div class="customer-info-cart">
+            <input type="text" id="customerName" placeholder="Your Full Name *" value="${escapeHtml(savedName)}">
+            <input type="tel" id="customerPhone" placeholder="Phone Number *" value="${escapeHtml(savedPhone)}">
+            <input type="text" id="deliveryAddress" placeholder="Delivery Address (for delivery)">
+            <select id="orderType">
+              <option value="takeaway">Takeaway</option>
+              <option value="delivery">Delivery</option>
+              <option value="dine-in">Dine-in</option>
+            </select>
+          </div>
+          
+          <button class="btn-checkout" onclick="placeOrder(${subtotal}, ${tax}, ${deliveryFee}, ${total})">
+            Place Order →
+          </button>
+          <div id="orderMessage"></div>
+        </div>
+      </div>
+    `;
+  }
+  
+  async function placeOrder(subtotal, tax, deliveryFee, total) {
+    const name = document.getElementById('customerName')?.value.trim();
+    const phone = document.getElementById('customerPhone')?.value.trim();
+    const address = document.getElementById('deliveryAddress')?.value.trim();
+    const orderType = document.getElementById('orderType')?.value;
+    
+    if (!name || !phone) {
+      showOrderMessage('Please enter your name and phone number', 'error');
+      return;
+    }
+    
+    if (orderType === 'delivery' && !address) {
+      showOrderMessage('Please enter delivery address', 'error');
+      return;
+    }
+    
+    // Save customer info
+    localStorage.setItem('yoshi_customer_name', name);
+    localStorage.setItem('yoshi_customer_phone', phone);
+    
+    const orderBtn = document.querySelector('.btn-checkout');
+    orderBtn.disabled = true;
+    orderBtn.textContent = 'Processing...';
+    
+    const orderData = {
+      customerName: name,
+      customerPhone: phone,
+      deliveryAddress: address || '',
+      items: cart.map(item => ({
+        menuItemId: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+        specialRequest: item.specialRequest || ''
+      })),
+      subtotal: subtotal,
+      tax: tax,
+      deliveryFee: deliveryFee,
+      total: total,
+      orderType: orderType,
+      status: 'pending',
+      paymentMethod: 'cash',
+      paymentStatus: 'pending'
+    };
+    
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData)
+      });
+      
+      if (res.ok) {
+        const order = await res.json();
+        showOrderMessage(`✅ Order placed successfully! Order #: ${order.orderNumber}`, 'success');
+        
+        // Clear cart
+        cart = [];
+        saveCart();
+        
+        setTimeout(() => {
+          window.location.href = `order-confirmation.html?id=${order._id}`;
+        }, 2000);
+      } else {
+        throw new Error('Failed to place order');
+      }
+    } catch (err) {
+      showOrderMessage('❌ Failed to place order. Please try again.', 'error');
+      orderBtn.disabled = false;
+      orderBtn.textContent = 'Place Order →';
+    }
+  }
+  
+  function showOrderMessage(msg, type) {
+    const msgDiv = document.getElementById('orderMessage');
+    msgDiv.innerHTML = `<div class="order-success-cart" style="background:${type === 'success' ? 'rgba(74,222,128,0.1)' : 'rgba(248,113,113,0.1)'}; border-color:${type === 'success' ? 'rgba(74,222,128,0.3)' : 'rgba(248,113,113,0.3)'}">${msg}</div>`;
+    setTimeout(() => { msgDiv.innerHTML = ''; }, 5000);
+  }
+  
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+  
+  // Initialize cart
+  loadCart();
+  
+  // Make functions global for onclick
+  window.updateQuantity = updateQuantity;
+  window.removeItem = removeItem;
+  window.placeOrder = placeOrder;
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOSHI ヨシ — Pan-Asian Dining, Banani</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">
+    <span class="logo-en">YOSHI</span>
+    <span class="logo-jp">ヨシ</span>
+  </div>
+  <ul class="nav-links">
+  <li><a href="/">Home</a></li>
+  <li><a href="/menu.html">Menu</a></li>
+  <li><a href="/about.html">About</a></li>
+  <li><a href="/showcase.html">Showcase</a></li>
+  <li><a href="/reservation.html">Reserve</a></li>
+  <li><a href="/location.html">Location</a></li>
+  <li><a href="/admin/admin-panel.html" class="nav-admin">Admin</a></li>
+</ul>
+  <a href="/reservation.html" class="nav-cta">Book Table</a>
+  <button class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- RESERVATION -->
+<section class="reserve-section" id="reserve">
+  <div class="reserve-grid">
+    <div class="reserve-left">
+      <div class="section-tag">Book a Table</div>
+      <h2 class="reserve-title">Reserve Your <em>Experience</em></h2>
+      <p class="reserve-sub">House 94, Road 13/A, Block D, Banani, Dhaka 1213</p>
+      <p class="reserve-sub">📞 01965-452140</p>
+      <p class="reserve-sub">⏰ Open 12 PM daily</p>
+      <div class="reserve-info">
+        <div class="info-item">
+          <span class="info-icon">🍽</span>
+          <span>Dine-in available</span>
+        </div>
+        <div class="info-item">
+          <span class="info-icon">📦</span>
+          <span>Takeaway & Delivery</span>
+        </div>
+      </div>
+    </div>
+    <div class="reserve-right">
+      <form class="reserve-form glass-card" id="reserveForm">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" name="name" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" name="phone" placeholder="01XXXXXXXXX" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" name="date" required />
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <input type="time" name="time" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Guests</label>
+          <select name="guests">
+            <option>1 Person</option>
+            <option selected>2 People</option>
+            <option>3 People</option>
+            <option>4 People</option>
+            <option>5+ People</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Special Requests</label>
+          <textarea name="notes" placeholder="Allergies, occasions, preferences..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-full" id="reserveBtn">
+          Confirm Reservation
+        </button>
+        <div class="form-msg" id="formMsg"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

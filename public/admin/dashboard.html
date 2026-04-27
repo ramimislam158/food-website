@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — YOSHI ヨシ Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    /* Additional styles for category management */
+    .category-icon {
+      font-size: 1.2rem;
+      margin-right: 8px;
+    }
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(255,191,0,0.1);
+      border-radius: 20px;
+      font-size: 0.75rem;
+    }
+    .action-btns {
+      display: flex;
+      gap: 8px;
+    }
+    .action-btn {
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+    .action-btn.edit {
+      background: rgba(255,191,0,0.15);
+      color: #FFBF00;
+      border: 1px solid rgba(255,191,0,0.3);
+    }
+    .action-btn.edit:hover {
+      background: #FFBF00;
+      color: #000;
+    }
+    .action-btn.delete {
+      background: rgba(248,113,113,0.15);
+      color: #f87171;
+      border: 1px solid rgba(248,113,113,0.3);
+    }
+    .action-btn.delete:hover {
+      background: #f87171;
+      color: #fff;
+    }
+    .action-btn.toggle {
+      background: rgba(74,222,128,0.15);
+      color: #4ade80;
+      border: 1px solid rgba(74,222,128,0.3);
+    }
+    .action-btn.toggle:hover {
+      background: #4ade80;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="logo-lockup">
+      <h2>YOSHI <span>ヨシ</span></h2>
+      <p>Control Panel</p>
+    </div>
+    <ul class="sidebar-menu">
+      <li><a href="#" class="active" data-section="dashboard" onclick="showSection('dashboard');return false"><span class="menu-icon">⚡</span> Dashboard</a></li>
+      <li><a href="#" data-section="menuMgmt" onclick="showSection('menuMgmt');return false"><span class="menu-icon">🍜</span> Menu Items</a></li>
+      <li><a href="#" data-section="resMgmt" onclick="showSection('resMgmt');return false"><span class="menu-icon">📅</span> Reservations</a></li>
+      <li><a href="#" data-section="catMgmt" onclick="showSection('catMgmt');return false"><span class="menu-icon">🏷️</span> Categories</a></li>
+      <li><a href="../index.html" style="margin-top:auto"><span class="menu-icon">↩</span> View Site</a></li>
+    </ul>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-header">
+      <h1>Good to see you, <span>Chef</span>.</h1>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div style="font-size:0.78rem;color:var(--muted);font-family:var(--font-ui)"><span id="liveTime"></span></div>
+        <a href="../index.html" class="btn-ghost sm">← View Site</a>
+      </div>
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <div id="section-dashboard">
+      <div class="admin-stats">
+        <div class="stat-card"><div class="stat-icon">🍜</div><div class="stat-value" id="statMenuCount">0</div><div class="stat-name">Menu Items</div></div>
+        <div class="stat-card"><div class="stat-icon">📅</div><div class="stat-value" id="statResCount">0</div><div class="stat-name">Reservations</div></div>
+        <div class="stat-card"><div class="stat-icon">⛔</div><div class="stat-value" id="statSoldOut">0</div><div class="stat-name">Sold Out</div></div>
+        <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-value">4.7</div><div class="stat-name">Google Rating</div></div>
+      </div>
+      <div class="admin-table-wrap">
+        <div class="admin-table-header">
+          <h3>Recent Reservations</h3>
+          <button class="btn-ghost sm" onclick="showSection('resMgmt')">View All</button>
+        </div>
+        <table class="admin-table">
+          <thead><tr><th>Name</th><th>Date</th><th>Time</th><th>Guests</th><th>Status</th></tr></thead>
+          <tbody id="recentResBody"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:40px">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- MENU MANAGEMENT SECTION -->
+    <div id="section-menuMgmt" style="display:none">
+      <div class="admin-table-wrap">
+        <div class="admin-table-header">
+          <h3>Menu Items</h3>
+          <button class="btn-primary" onclick="openAddModal()">+ Add Item</button>
+        </div>
+        <table class="admin-table">
+          <thead><tr><th>Name</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="menuTableBody"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:40px">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- RESERVATIONS SECTION -->
+    <div id="section-resMgmt" style="display:none">
+      <div class="admin-table-wrap">
+        <div class="admin-table-header">
+          <h3>All Reservations</h3>
+          <span style="font-size:0.78rem;color:var(--muted);font-family:var(--font-ui)" id="resCount"></span>
+        </div>
+        <table class="admin-table">
+          <thead><tr><th>Name</th><th>Phone</th><th>Date</th><th>Time</th><th>Guests</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="resTableBody"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:40px">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CATEGORY MANAGEMENT SECTION -->
+    <div id="section-catMgmt" style="display:none">
+      <div class="admin-table-wrap">
+        <div class="admin-table-header">
+          <h3>📂 Manage Categories</h3>
+          <button class="btn-primary" onclick="openAddCategoryModal()">+ Add Category</button>
+        </div>
+        <table class="admin-table">
+          <thead><tr><th>Category</th><th>Slug</th><th>Order</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="categoryTableBody"><tr><td colspan="5" style="text-align:center;color:var(--muted);padding:40px">Loading categories...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MENU MODAL -->
+<div class="modal-overlay" id="menuModal">
+  <div class="modal-card glass-card">
+    <h2 id="modalTitle">Add <span>Menu Item</span></h2>
+    <form id="menuForm">
+      <input type="hidden" id="editId" />
+      <div class="form-group"><label>Item Name</label><input type="text" id="itemName" placeholder="e.g. Tonkotsu Ramen" required /></div>
+      <div class="form-row">
+        <div class="form-group"><label>Category</label>
+          <select id="itemCategory">
+            <option value="">Loading categories...</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Price (৳)</label><input type="number" id="itemPrice" placeholder="350" min="0" required /></div>
+      </div>
+      <div class="form-group"><label>Description</label><textarea id="itemDesc" placeholder="Describe this dish..."></textarea></div>
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="url" id="itemImage" placeholder="https://..." oninput="previewImage()" />
+        <img id="imgPreview" style="display:none;width:100%;height:140px;object-fit:cover;border-radius:8px;margin-top:8px;border:1px solid rgba(255,191,0,0.2)" />
+      </div>
+      <div class="form-group" style="display:flex;align-items:center;gap:16px;flex-direction:row">
+        <label style="margin:0;flex:1">Available</label>
+        <label class="toggle-switch"><input type="checkbox" id="itemAvailable" checked /><span class="toggle-slider"></span></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn-primary">Save & Publish</button>
+      </div>
+      <div class="form-msg" id="modalMsg"></div>
+    </form>
+  </div>
+</div>
+
+<!-- CATEGORY MODAL -->
+<div class="modal-overlay" id="categoryModal">
+  <div class="modal-card glass-card">
+    <h2 id="catModalTitle">Add <span>Category</span></h2>
+    <input type="hidden" id="editCatId" />
+    <div class="form-group"><label>Category Name</label><input type="text" id="catName" placeholder="e.g. Noodles, Seafood" required /></div>
+    <div class="form-group"><label>Icon (Emoji)</label><input type="text" id="catIcon" placeholder="🍜" maxlength="2" value="🍽" /></div>
+    <div class="form-group"><label>Display Order</label><input type="number" id="catOrder" placeholder="0" value="0" /></div>
+    <div class="modal-footer">
+      <button type="button" class="btn-cancel" onclick="closeCategoryModal()">Cancel</button>
+      <button type="button" class="btn-primary" onclick="saveCategory()">Save Category</button>
+    </div>
+    <div class="form-msg" id="catModalMsg"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  FULLY DYNAMIC ADMIN DASHBOARD
+// ============================================================
+
+let menuItems = [];
+let reservations = [];
+let categories = [];
+
+// ── TIME UPDATE ──────────────────────────────────────────
+function updateTime() {
+  const el = document.getElementById('liveTime');
+  if (el) el.textContent = new Date().toLocaleString('en-BD', { hour:'2-digit', minute:'2-digit', hour12:true, weekday:'short', month:'short', day:'numeric' });
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// ── API CALLS ────────────────────────────────────────────
+async function fetchMenu() {
+  try {
+    const res = await fetch('/api/menu');
+    menuItems = res.ok ? await res.json() : [];
+    console.log('Menu loaded:', menuItems.length);
+  } catch(e) { menuItems = []; }
+  renderStats(); renderMenuTable(); renderRecentRes();
+}
+
+async function fetchReservations() {
+  try {
+    const res = await fetch('/api/reservations');
+    reservations = res.ok ? await res.json() : [];
+    console.log('Reservations loaded:', reservations.length);
+  } catch(e) { reservations = []; }
+  renderStats(); renderRecentRes(); renderResTable();
+}
+
+async function fetchCategories() {
+  try {
+    const res = await fetch('/api/categories');
+    if (res.ok) {
+      categories = await res.json();
+      console.log('Categories loaded:', categories);
+      renderCategoryTable();
+      updateCategorySelect();
+      return categories;
+    }
+  } catch(e) { 
+    console.error('Error loading categories:', e);
+    categories = []; 
+  }
+  renderCategoryTable();
+}
+
+// ── CATEGORY MANAGEMENT ──────────────────────────────────
+async function saveCategory() {
+  const id = document.getElementById('editCatId').value;
+  const name = document.getElementById('catName').value.trim();
+  const icon = document.getElementById('catIcon').value.trim() || '🍽';
+  const order = parseInt(document.getElementById('catOrder').value) || 0;
+  const msgEl = document.getElementById('catModalMsg');
+  
+  if (!name) {
+    msgEl.textContent = 'Category name is required';
+    msgEl.style.color = '#f87171';
+    return;
+  }
+  
+  const data = { name, icon, order };
+  
+  try {
+    let res;
+    if (id) {
+      res = await fetch(`/api/categories/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } else {
+      res = await fetch('/api/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    }
+    
+    if (res.ok) {
+      showToast(id ? '✅ Category updated!' : '✅ Category added!');
+      closeCategoryModal();
+      await fetchCategories();
+      await fetchMenu(); // Refresh menu to show updated categories
+    } else {
+      const error = await res.json();
+      msgEl.textContent = error.error || 'Failed to save category';
+      msgEl.style.color = '#f87171';
+    }
+  } catch (err) {
+    msgEl.textContent = 'Network error. Please try again.';
+    msgEl.style.color = '#f87171';
+  }
+}
+
+async function deleteCategory(id) {
+  const cat = categories.find(c => c._id === id);
+  if (!confirm(`Delete category "${cat?.name}"? Menu items in this category will still exist.`)) return;
+  
+  try {
+    const res = await fetch(`/api/categories/${id}`, { method: 'DELETE' });
+    if (res.ok) {
+      showToast(`✅ "${cat?.name}" deleted`);
+      await fetchCategories();
+      await fetchMenu();
+    } else {
+      showToast('Failed to delete category');
+    }
+  } catch (err) {
+    showToast('Error deleting category');
+  }
+}
+
+function openAddCategoryModal() {
+  document.getElementById('catModalTitle').innerHTML = 'Add <span>Category</span>';
+  document.getElementById('editCatId').value = '';
+  document.getElementById('catName').value = '';
+  document.getElementById('catIcon').value = '🍽';
+  document.getElementById('catOrder').value = categories.length;
+  document.getElementById('catModalMsg').textContent = '';
+  document.getElementById('categoryModal').classList.add('open');
+}
+
+function editCategory(id) {
+  const cat = categories.find(c => c._id === id);
+  if (!cat) return;
+  document.getElementById('catModalTitle').innerHTML = 'Edit <span>Category</span>';
+  document.getElementById('editCatId').value = cat._id;
+  document.getElementById('catName').value = cat.name;
+  document.getElementById('catIcon').value = cat.icon || '🍽';
+  document.getElementById('catOrder').value = cat.order || 0;
+  document.getElementById('catModalMsg').textContent = '';
+  document.getElementById('categoryModal').classList.add('open');
+}
+
+function closeCategoryModal() {
+  document.getElementById('categoryModal').classList.remove('open');
+}
+
+function renderCategoryTable() {
+  const body = document.getElementById('categoryTableBody');
+  if (!body) return;
+  
+  if (categories.length === 0) {
+    body.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:40px">No categories yet. Click "+ Add Category" to start.</td></tr>';
+    return;
+  }
+  
+  body.innerHTML = categories.map(cat => `
+    <tr>
+      <td><span class="category-icon">${cat.icon || '🍽'}</span> <strong>${escapeHtml(cat.name)}</strong></td>
+      <td><code style="background:rgba(255,255,255,0.05);padding:4px 8px;border-radius:6px">${cat.slug}</code></td>
+      <td>${cat.order || 0}</td>
+      <td>${cat.isActive !== false ? '<span style="color:#4ade80">✅ Active</span>' : '<span style="color:#f87171">❌ Inactive</span>'}</td>
+      <td><div class="action-btns"><button class="action-btn edit" onclick="editCategory(\'${cat._id}\')">Edit</button><button class="action-btn delete" onclick="deleteCategory(\'${cat._id}\')">Delete</button></div></td>
+    </tr>
+  `).join('');
+}
+
+function updateCategorySelect() {
+  const select = document.getElementById('itemCategory');
+  if (!select) return;
+  
+  if (categories.length === 0) {
+    select.innerHTML = '<option value="">No categories available</option>';
+    return;
+  }
+  
+  select.innerHTML = '<option value="">Select Category</option>';
+  categories.forEach(cat => {
+    const option = document.createElement('option');
+    option.value = cat.slug;
+    option.textContent = `${cat.icon || '🍽'} ${cat.name}`;
+    select.appendChild(option);
+  });
+}
+
+function getCategoryName(slug) {
+  const cat = categories.find(c => c.slug === slug);
+  return cat ? `${cat.icon || '🍽'} ${cat.name}` : slug;
+}
+
+// ── UI RENDER FUNCTIONS ──────────────────────────────────
+function showSection(name) {
+  document.querySelectorAll('[id^="section-"]').forEach(s => s.style.display = 'none');
+  const section = document.getElementById('section-' + name);
+  if (section) section.style.display = 'block';
+  
+  document.querySelectorAll('.sidebar-menu a').forEach(a => {
+    a.classList.toggle('active', a.dataset.section === name);
+  });
+  
+  if (name === 'menuMgmt') fetchMenu();
+  if (name === 'resMgmt') fetchReservations();
+  if (name === 'catMgmt') fetchCategories();
+  if (name === 'dashboard') {
+    fetchMenu();
+    fetchReservations();
+  }
+}
+
+function renderStats() {
+  const menuCount = document.getElementById('statMenuCount');
+  const resCount = document.getElementById('statResCount');
+  const soldOut = document.getElementById('statSoldOut');
+  
+  if (menuCount) menuCount.textContent = menuItems.length;
+  if (resCount) resCount.textContent = reservations.length;
+  if (soldOut) soldOut.textContent = menuItems.filter(i => !i.available).length;
+}
+
+function renderRecentRes() {
+  const body = document.getElementById('recentResBody');
+  if (!body) return;
+  
+  if (reservations.length === 0) { 
+    body.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:40px">No reservations yet.</td></tr>'; 
+    return; 
+  }
+  
+  body.innerHTML = reservations.slice(0,5).map(r => `
+    <tr>
+      <td><strong>${escapeHtml(r.name)}</strong></td>
+      <td>${r.date ? new Date(r.date).toLocaleDateString('en-BD') : '—'}</td>
+      <td>${r.time || '—'}</td>
+      <td>${r.guests || '—'}</td>
+      <td><span class="res-status ${r.status}">${r.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+function renderMenuTable() {
+  const body = document.getElementById('menuTableBody');
+  if (!body) return;
+  
+  if (menuItems.length === 0) { 
+    body.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:40px">No menu items yet. Click "+ Add Item" to start.</td></tr>'; 
+    return; 
+  }
+  
+  body.innerHTML = menuItems.map(item => `
+    <tr>
+      <td>
+        <div style="display:flex;align-items:center;gap:10px">
+          ${item.imageUrl ? `<img src="${item.imageUrl}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid rgba(255,191,0,0.2)" onerror="this.style.display='none'"/>` : ''}
+          <strong>${escapeHtml(item.name)}</strong>
+          ${item.featured ? '<span style="background:rgba(255,191,0,0.15);padding:2px 8px;border-radius:4px;font-size:0.6rem;color:#FFBF00">★ FEATURED</span>' : ''}
+        </div>
+      </td>
+      <td><span class="category-badge">${getCategoryName(item.category)}</span></td>
+      <td style="color:var(--amber);font-weight:600">৳ ${item.price}</td>
+      <td>
+        <label class="toggle-switch">
+          <input type="checkbox" ${item.available ? 'checked' : ''} onchange="toggleAvailability('${item._id}', this.checked)"/>
+          <span class="toggle-slider"></span>
+        </label>
+        <div style="font-size:0.68rem;color:var(--muted);margin-top:4px">${item.available ? 'Available' : 'Sold Out'}</div>
+      </td>
+      <td><div class="action-btns"><button class="action-btn edit" onclick="openEditModal('${item._id}')">Edit</button><button class="action-btn delete" onclick="deleteItem('${item._id}')">Delete</button></div></td>
+    </tr>
+  `).join('');
+}
+
+function renderResTable() {
+  const body = document.getElementById('resTableBody');
+  const countSpan = document.getElementById('resCount');
+  
+  if (!body) return;
+  if (countSpan) countSpan.textContent = reservations.length + ' total';
+  
+  if (reservations.length === 0) { 
+    body.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:40px">No reservations yet.</td></tr>'; 
+    return; 
+  }
+  
+  body.innerHTML = reservations.map(r => `
+    <tr>
+      <td><strong>${escapeHtml(r.name)}</strong></td>
+      <td>${r.phone || '—'}</td>
+      <td>${r.date ? new Date(r.date).toLocaleDateString('en-BD') : '—'}</td>
+      <td>${r.time || '—'}</td>
+      <td>${r.guests || '—'}</td>
+      <td><span class="res-status ${r.status}">${r.status}</span></td>
+      <td><div class="action-btns"><button class="action-btn toggle" onclick="toggleResStatus('${r._id}', '${r.status}')">${r.status === 'pending' ? 'Confirm' : 'Revert'}</button><button class="action-btn delete" onclick="deleteRes('${r._id}')">Delete</button></div></td>
+    </tr>
+  `).join('');
+}
+
+// ── CRUD OPERATIONS ──────────────────────────────────────
+async function toggleAvailability(id, checked) {
+  try { 
+    await fetch(`/api/menu/${id}/toggle`, { method: 'PATCH' }); 
+    await fetchMenu(); 
+  } catch(e) { 
+    const item = menuItems.find(i => i._id === id); 
+    if(item) { item.available = checked; renderMenuTable(); renderStats(); } 
+  }
+}
+
+async function deleteItem(id) {
+  if (!confirm('Delete this item? It will be removed from your website.')) return;
+  try { 
+    await fetch(`/api/menu/${id}`, { method: 'DELETE' }); 
+    await fetchMenu(); 
+  } catch(e) {}
+}
+
+async function toggleResStatus(id, currentStatus) {
+  const newStatus = currentStatus === 'pending' ? 'confirmed' : 'pending';
+  try { 
+    await fetch(`/api/reservations/${id}/status`, { 
+      method: 'PATCH', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify({ status: newStatus }) 
+    }); 
+    await fetchReservations(); 
+  } catch(e) {}
+}
+
+async function deleteRes(id) {
+  if (!confirm('Delete this reservation?')) return;
+  try { 
+    await fetch(`/api/reservations/${id}`, { method: 'DELETE' }); 
+    await fetchReservations(); 
+  } catch(e) {}
+}
+
+// ── MODAL FUNCTIONS ──────────────────────────────────────
+function previewImage() {
+  const url = document.getElementById('itemImage').value.trim();
+  const preview = document.getElementById('imgPreview');
+  if (url) { 
+    preview.src = url; 
+    preview.style.display = 'block'; 
+    preview.onerror = () => preview.style.display = 'none'; 
+  } else { 
+    preview.style.display = 'none'; 
+  }
+}
+
+const modal = document.getElementById('menuModal');
+
+function openAddModal() {
+  document.getElementById('modalTitle').innerHTML = 'Add <span>Menu Item</span>';
+  document.getElementById('editId').value = '';
+  document.getElementById('itemName').value = '';
+  document.getElementById('itemCategory').value = '';
+  document.getElementById('itemPrice').value = '';
+  document.getElementById('itemDesc').value = '';
+  document.getElementById('itemImage').value = '';
+  document.getElementById('imgPreview').style.display = 'none';
+  document.getElementById('itemAvailable').checked = true;
+  document.getElementById('modalMsg').textContent = '';
+  modal.classList.add('open');
+}
+
+function openEditModal(id) {
+  const item = menuItems.find(i => i._id === id);
+  if (!item) return;
+  document.getElementById('modalTitle').innerHTML = 'Edit <span>Menu Item</span>';
+  document.getElementById('editId').value = item._id;
+  document.getElementById('itemName').value = item.name;
+  document.getElementById('itemCategory').value = item.category;
+  document.getElementById('itemPrice').value = item.price;
+  document.getElementById('itemDesc').value = item.description || '';
+  document.getElementById('itemImage').value = item.imageUrl || '';
+  document.getElementById('itemAvailable').checked = item.available;
+  document.getElementById('modalMsg').textContent = '';
+  const preview = document.getElementById('imgPreview');
+  if (item.imageUrl) { 
+    preview.src = item.imageUrl; 
+    preview.style.display = 'block'; 
+  } else { 
+    preview.style.display = 'none'; 
+  }
+  modal.classList.add('open');
+}
+
+function closeModal() { 
+  modal.classList.remove('open'); 
+}
+modal.addEventListener('click', e => { 
+  if (e.target === modal) closeModal(); 
+});
+
+// Category modal close
+document.getElementById('categoryModal')?.addEventListener('click', e => {
+  if (e.target === document.getElementById('categoryModal')) closeCategoryModal();
+});
+
+// ── FORM SUBMIT ──────────────────────────────────────────
+document.getElementById('menuForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const msg = document.getElementById('modalMsg');
+  const id = document.getElementById('editId').value;
+  const name = document.getElementById('itemName').value.trim();
+  const price = parseFloat(document.getElementById('itemPrice').value);
+  
+  if (!name) { 
+    msg.textContent = 'Item name is required.'; 
+    msg.style.color = '#f87171'; 
+    return; 
+  }
+  if (!price || price < 0) { 
+    msg.textContent = 'Valid price is required.'; 
+    msg.style.color = '#f87171'; 
+    return; 
+  }
+  
+  const data = { 
+    name, 
+    category: document.getElementById('itemCategory').value, 
+    price, 
+    description: document.getElementById('itemDesc').value.trim(), 
+    imageUrl: document.getElementById('itemImage').value.trim(), 
+    available: document.getElementById('itemAvailable').checked 
+  };
+  
+  try {
+    if (id) { 
+      await fetch(`/api/menu/${id}`, { 
+        method: 'PUT', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(data) 
+      }); 
+    } else { 
+      await fetch('/api/menu', { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json' }, 
+        body: JSON.stringify(data) 
+      }); 
+    }
+    closeModal(); 
+    await fetchMenu();
+    showToast('✓ Item saved successfully!');
+  } catch(err) { 
+    msg.textContent = 'Something went wrong. Try again.'; 
+    msg.style.color = '#f87171'; 
+  }
+});
+
+// ── HELPER FUNCTIONS ─────────────────────────────────────
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
+function showToast(msg) {
+  const toast = document.createElement('div');
+  toast.textContent = msg;
+  toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#111;border:1px solid #FFBF00;color:#FFBF00;padding:12px 20px;border-radius:8px;z-index:9999;animation:fadeInOut 2.5s ease';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2500);
+}
+
+// Add animation style
+const toastStyle = document.createElement('style');
+toastStyle.textContent = `@keyframes fadeInOut { 0% { opacity:0; transform:translateY(20px); } 10% { opacity:1; transform:translateY(0); } 90% { opacity:1; transform:translateY(0); } 100% { opacity:0; transform:translateY(20px); } }`;
+document.head.appendChild(toastStyle);
+
+// ── INITIALIZATION ───────────────────────────────────────
+async function init() {
+  await fetchCategories();
+  await fetchMenu();
+  await fetchReservations();
+}
+
+init();
+</script>
+</body>
+</html>

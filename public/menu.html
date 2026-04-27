@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YOSHI ヨシ — Pan-Asian Dining, Banani</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">
+    <span class="logo-en">YOSHI</span>
+    <span class="logo-jp">ヨシ</span>
+  </div>
+ <ul class="nav-links">
+  <li><a href="/">Home</a></li>
+  <li><a href="/menu.html">Menu</a></li>
+  <li><a href="/about.html">About</a></li>
+  <li><a href="/showcase.html">Showcase</a></li>
+  <li><a href="/reservation.html">Reserve</a></li>
+  <li><a href="/location.html">Location</a></li>
+  <li><a href="/admin/admin-panel.html" class="nav-admin">Admin</a></li>
+</ul>
+  <a href="/reservation.html" class="nav-cta">Book Table</a>
+  <button class="nav-toggle" id="navToggle">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="section-header">
+    <div class="section-tag">Our Menu</div>
+    <h2 class="section-title">Signature <em>Dishes</em></h2>
+    <p class="section-sub">Fetched live from our kitchen. Updated daily.</p>
+  </div>
+
+  <!-- SEARCH BAR - Menu Section এর ভিতরে -->
+   <div class="menu-search-container">
+   <div class="menu-search-bar">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="menuSearchInput" placeholder="Search menu items... (e.g., ramen, chicken, curry)" autocomplete="off">
+    <button class="search-clear" id="clearSearchBtn" style="display:none;">✕</button>
+   </div>
+   <div class="search-results-count" id="searchResultsCount"></div>
+   </div>  
+
+  <!-- Category Filters - Dynamically populated by JavaScript -->
+  <div class="menu-filters" id="menuFilters">
+    <div class="menu-loading-filters">Loading categories...</div>
+  </div>
+
+  <div class="menu-grid" id="menuGrid">
+    <!-- Items injected by JS from API -->
+    <div class="menu-loading" id="menuLoading">
+      <div class="loader-ring"></div>
+      <span>Loading from kitchen...</span>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
