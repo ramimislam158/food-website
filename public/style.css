@@ -681,37 +681,40 @@ input, textarea, select {
 }
 
 /* ── OLD MARQUEE (Keep for compatibility) ── */
+/* মার্কি সেন্টার করার জন্য ফোর্সফুল CSS */
 .marquee-strip {
+  text-align: center !important;
   background: rgba(255,191,0,0.05);
-  border-top: 1px solid var(--glass-border);
-  border-bottom: 1px solid var(--glass-border);
-  overflow: hidden;
-  position: relative;
-  width: 100%;
+  border-top: 1px solid rgba(255,191,0,0.18);
+  border-bottom: 1px solid rgba(255,191,0,0.18);
   padding: 14px 0;
+  width: 100%;
 }
+
 .marquee-track {
-  display: flex;
-  gap: 48px;
-  white-space: nowrap;
-  animation: marqueeScroll 30s linear infinite;
-  width: fit-content;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  animation: none !important;
+  gap: 0 !important;
+  width: 100% !important;
 }
+
 .marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--amber);
-  background: rgba(255,191,0,0.08);
-  padding: 6px 20px;
+  display: inline-flex !important;
+  margin: 0 auto !important;
+  background: rgba(255,191,0,0.1);
+  padding: 6px 28px;
   border-radius: 40px;
   border: 1px solid rgba(255,191,0,0.25);
-  backdrop-filter: blur(4px);
-  transition: all 0.3s ease;
+}
+
+.marquee {
+  text-align: center;
+}
+
+.marquee-content span {
+  display: inline-block;
 }
 .marquee-track:hover {
   animation-play-state: paused;
@@ -756,6 +759,8 @@ input, textarea, select {
   color: var(--black);
   background: rgba(255,255,255,0.3);
 }
+
+
 
 /* ── ABOUT ─────────────────────────────────────────────── */
 .about {
@@ -1909,348 +1914,114 @@ input, textarea, select {
 .res-status.confirmed { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
 
 /* ── RESPONSIVE ────────────────────────────────────────── */
+/* ============================================================
+   RESPONSIVE FIXES - যোগ করুন (পুরাতন CSS এর কোনো পরিবর্তন করবেন না)
+   ============================================================ */
+
+/* নেভ টগল বাটন */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+.nav-toggle span {
+  width: 25px;
+  height: 2px;
+  background: #2d2a24;
+  transition: all 0.3s;
+}
+
 @media (max-width: 1024px) {
-  /* মাউস কার্সার বন্ধ (টাচ ডিভাইসের জন্য) */
-  .cursor, .cursor-follower {
-    display: none;
-  }
-  body {
-    cursor: auto;
-  }
+  .cursor, .cursor-follower { display: none; }
+  body { cursor: auto; }
   
-  /* নেভিগেশন মোবাইল */
-  .nav {
-    padding: 0 20px;
-  }
+  .nav { padding: 0 20px; }
   .nav-links {
     position: fixed;
-    top: var(--nav-h, 72px);
+    top: 72px;
     left: -100%;
     width: 100%;
-    height: calc(100vh - var(--nav-h, 72px));
-    background: var(--cream);
+    height: calc(100vh - 72px);
+    background: #fff9f5;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 30px;
     transition: left 0.3s ease;
     z-index: 999;
-    margin: 0;
-    padding: 0;
   }
-  .nav-links.mobile-open {
-    left: 0;
-  }
-  .nav-toggle {
-    display: flex;
-  }
-  .nav-cta {
-    display: none;
-  }
+  .nav-links.mobile-open { left: 0; }
+  .nav-toggle { display: flex; }
+  .nav-cta { display: none; }
   
-  /* হিরো সেকশন */
-  .hero {
-    flex-direction: column;
-    text-align: center;
-    padding: 100px 20px 40px;
-  }
-  .hero-left {
-    padding-right: 0;
-  }
-  .hero-desc {
-    max-width: 100%;
-  }
-  .hero-stats {
-    justify-content: center;
-  }
-  .hero-ctas {
-    justify-content: center;
-  }
-  
-  /* হিরো ডান পাশ */
-  .rating-badge {
-    justify-content: center;
-  }
-  .food-circle-wrap {
-    margin: 0 auto;
-  }
-  .food-tag {
-    right: 5%;
-    left: auto;
-  }
-  
-  /* স্লাইডার */
-  .category-slider-header {
-    padding: 0 20px 12px;
-  }
-  .category-slider-track {
-    padding: 0 20px;
-  }
-  
-  /* মেনু */
-  .menu-section {
-    padding: 40px 20px;
-  }
-  .filter-btn {
-    padding: 6px 16px;
-    font-size: 0.7rem;
-  }
-  
-  /* শোকেস */
-  .showcase {
-    padding: 60px 0 60px 20px;
-  }
-  
-  /* রিজার্ভেশন */
-  .reserve-section {
-    padding: 60px 20px;
-  }
-  .reserve-grid {
-    text-align: center;
-  }
-  .reserve-info {
-    align-items: center;
-  }
-  .reserve-info .info-item {
-    justify-content: center;
-  }
-  
-  /* ম্যাপ */
-  .map-section {
-    padding: 0 20px 60px;
-  }
-  
-  /* ফুটার */
-  .footer {
-    padding: 50px 20px 30px;
-  }
-  .footer-inner {
-    text-align: center;
-  }
-  .footer-links h4 {
-    margin-top: 20px;
-  }
-  
-  /* অ্যাবাউট */
-  .about {
-    padding: 60px 20px;
-  }
-  .about-grid {
-    text-align: center;
-  }
-  .about-badges {
-    justify-content: center;
-  }
-  
-  /* স্টোরি ও ভ্যালু */
-  .story {
-    padding: 60px 20px;
-  }
-  .story-grid {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
-  .story-left {
-    position: relative;
-    top: 0;
-  }
-  .values {
-    padding: 60px 20px;
-  }
-  .values-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-  }
-  .numbers {
-    padding: 60px 20px;
-  }
-  .numbers-inner {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 30px;
-  }
-}
-
-/* ── মোবাইল (768px এর নিচে) ── */
-@media (max-width: 768px) {
-  :root {
-    --nav-h: 60px;
-  }
-  
-  /* হিরো টাইটেল */
-  .hero-title {
-    font-size: 42px;
-  }
-  
-  /* স্ট্যাটস */
-  .hero-stats {
-    gap: 20px;
-  }
-  .stat-num {
-    font-size: 28px;
-  }
-  .stat-label {
-    font-size: 10px;
-  }
-  
-  /* বাটন */
-  .btn-order {
-    width: 85px;
-    height: 85px;
-    font-size: 11px;
-  }
-  .btn-order .arr {
-    font-size: 16px;
-  }
-  .btn-menu-link {
-    font-size: 12px;
-  }
-  
-  /* স্লাইডার আইটেম */
-  .category-slider-item {
-    padding: 5px 14px;
-    font-size: 0.75rem;
-  }
-  
-  /* ফিল্টার বাটন */
-  .filter-btn {
-    padding: 5px 12px;
-    font-size: 0.65rem;
-  }
-  
-  /* মেনু কার্ড */
-  .menu-card-img {
-    height: 180px;
-  }
-  .menu-card-name {
-    font-size: 1rem;
-  }
-  
-  /* শোকেস কার্ড */
-  .showcase-card {
-    min-width: 200px;
-    padding: 20px 16px;
-  }
-  .sc-icon {
-    font-size: 2rem;
-  }
-  .showcase-card h3 {
-    font-size: 1rem;
-  }
-  
-  /* ফর্ম */
-  .reserve-form {
-    padding: 25px;
-  }
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  
-  /* ম্যাপ ওভারলে */
+  .hero { flex-direction: column; text-align: center; padding: 100px 20px 40px; }
+  .hero-left { padding-right: 0; }
+  .hero-desc { max-width: 100%; }
+  .hero-stats { justify-content: center; }
+  .hero-ctas { justify-content: center; }
+  .rating-badge { justify-content: center; }
+  .food-circle-wrap { margin: 0 auto; }
+  .category-slider-header { padding: 0 20px 12px; }
+  .menu-section { padding: 40px 20px; }
+  .filter-btn { padding: 6px 14px; font-size: 0.7rem; }
+  .reserve-section { padding: 60px 20px; }
+  .reserve-grid { text-align: center; }
+  .footer { padding: 50px 20px 30px; }
+  .footer-inner { text-align: center; grid-template-columns: 1fr; gap: 30px; }
+  .about { padding: 60px 20px; }
+  .about-grid { text-align: center; }
+  .reserve-form { padding: 25px; }
+  .form-row { grid-template-columns: 1fr; }
+  .map-section { padding: 0 20px 60px; }
   .map-overlay-card {
     position: relative;
-    bottom: auto;
-    left: auto;
-    margin-top: -40px;
-    width: calc(100% - 20px);
+    margin-top: -50px;
+    width: calc(100% - 40px);
     margin-left: auto;
     margin-right: auto;
     text-align: center;
   }
-  
-  /* সেকশন টাইটেল */
-  .section-title {
-    font-size: 28px;
-  }
-  .section-tag {
-    font-size: 10px;
-  }
-  
-  /* ভ্যালু কার্ড */
-  .val-card {
-    padding: 30px 20px;
-  }
-  .val-title {
-    font-size: 22px;
-  }
+  .values-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .numbers-inner { grid-template-columns: repeat(2, 1fr); gap: 30px; }
 }
 
-/* ── ছোট মোবাইল (480px এর নিচে) ── */
+@media (max-width: 768px) {
+  .hero-title { font-size: 38px; }
+  .stat-num { font-size: 26px; }
+  .btn-order { width: 80px; height: 80px; font-size: 11px; }
+  .filter-btn { padding: 5px 12px; font-size: 0.65rem; }
+  .showcase-card { min-width: 200px; padding: 20px 16px; }
+  .sc-icon { font-size: 2rem; }
+  .section-title { font-size: 28px; }
+  .category-slider-item { padding: 5px 14px; font-size: 0.75rem; }
+  .marquee-content span { font-size: 0.75rem; padding: 5px 16px; }
+}
+
 @media (max-width: 480px) {
-  .hero-title {
-    font-size: 32px;
-  }
-  .hero-stats {
-    gap: 15px;
-  }
-  .stat-num {
-    font-size: 22px;
-  }
-  
-  .btn-order {
-    width: 70px;
-    height: 70px;
-    font-size: 9px;
-  }
-  .btn-order .arr {
-    font-size: 14px;
-  }
-  
-  .category-slider-item {
-    padding: 4px 10px;
-    font-size: 0.65rem;
-  }
-  .category-slider-item-icon {
-    font-size: 0.9rem;
-  }
-  
-  .filter-btn {
-    padding: 4px 10px;
-    font-size: 0.6rem;
-  }
-  
-  .showcase-card {
-    min-width: 170px;
-    padding: 16px 12px;
-  }
-  .sc-icon {
-    font-size: 1.6rem;
-  }
-  .showcase-card h3 {
-    font-size: 0.85rem;
-  }
-  .showcase-card p {
-    font-size: 0.7rem;
-  }
-  
-  .food-tag {
-    padding: 6px 12px;
-  }
-  .tag-icon {
-    font-size: 16px;
-  }
-  .tag-name {
-    font-size: 10px;
-  }
-  .tag-price {
-    font-size: 8px;
-  }
-  
-  .menu-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .section-title {
-    font-size: 24px;
-  }
+  .hero-title { font-size: 32px; }
+  .stat-num { font-size: 22px; }
+  .btn-order { width: 65px; height: 65px; font-size: 9px; }
+  .filter-btn { padding: 4px 10px; font-size: 0.6rem; }
+  .showcase-card { min-width: 170px; padding: 16px 12px; }
+  .sc-icon { font-size: 1.6rem; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .section-title { font-size: 24px; }
+  .values-grid { grid-template-columns: 1fr; }
+  .numbers-inner { grid-template-columns: 1fr; }
+  .category-slider-item { padding: 4px 12px; font-size: 0.7rem; }
+  .marquee-content span { font-size: 0.7rem; padding: 4px 12px; }
 }
 
-/* ── টাচ ডিভাইস (ট্যাবলেট ও মোবাইল) ── */
+/* মার্কি সেন্টার */
+.marquee { text-align: center; width: 100%; }
+.marquee-content { display: block; width: 100%; }
+.marquee-content span { display: inline-block; }
+
+/* টাচ ডিভাইস */
 @media (hover: none) and (pointer: coarse) {
-  .cursor, .cursor-follower {
-    display: none;
-  }
-  button, a, .menu-card, .showcase-card {
-    cursor: pointer;
-  }
+  .cursor, .cursor-follower { display: none; }
 }
