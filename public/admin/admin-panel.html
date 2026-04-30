@@ -110,12 +110,7 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
 .section{display:none}.section.active{display:block}
 
 /* SYNC BANNER */
-.sync-banner{
-  display:flex;align-items:center;gap:12px;
-  padding:12px 18px;margin-bottom:28px;
-  background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.25);border-radius:10px;
-  font-family:'Syne',sans-serif;font-size:.76rem;font-weight:600;color:#4ade80;
-}
+.sync-banner{display:flex;align-items:center;gap:12px;padding:12px 18px;margin-bottom:28px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.25);border-radius:10px;font-family:'Syne',sans-serif;font-size:.76rem;font-weight:600;color:#4ade80}
 .sync-banner .sb-dot{width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px rgba(74,222,128,0.6);flex-shrink:0}
 
 /* STATS */
@@ -128,12 +123,13 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
 
 /* TABLE CARD */
 .table-card{background:var(--glass);border:1px solid var(--gb);border-radius:16px;overflow:hidden;margin-bottom:28px}
-.table-card-header{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;border-bottom:1px solid var(--gb);background:rgba(255,191,0,0.03)}
+.table-card-header{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;border-bottom:1px solid var(--gb);background:rgba(255,191,0,0.03);flex-wrap:wrap;gap:10px}
 .table-card-header h3{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--wh)}
-.hdr-right{display:flex;align-items:center;gap:10px}
+.hdr-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 
 /* DATA TABLE */
-.data-table{width:100%;border-collapse:collapse}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.data-table{width:100%;border-collapse:collapse;min-width:500px}
 .data-table th{font-family:'Syne',sans-serif;font-size:.63rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--amb);padding:13px 20px;text-align:left;border-bottom:1px solid var(--gb);background:rgba(255,191,0,0.03)}
 .data-table td{padding:15px 20px;font-size:.85rem;color:var(--ow);border-bottom:1px solid rgba(255,255,255,0.04);vertical-align:middle}
 .data-table tr:last-child td{border-bottom:none}
@@ -203,9 +199,56 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
 .img-preview{width:100%;height:140px;border-radius:8px;margin-top:8px;object-fit:cover;border:1px solid var(--gb);display:none}
 .img-preview.show{display:block}
 
+/* ── MOBILE TOPBAR ── */
+.mob-topbar{display:none;position:fixed;top:0;left:0;right:0;height:56px;background:var(--ch);border-bottom:1px solid var(--gb);z-index:200;align-items:center;justify-content:space-between;padding:0 18px}
+.mob-logo{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;letter-spacing:.12em;color:var(--wh)}
+.mob-logo span{font-family:'Shippori Mincho',serif;color:var(--amb)}
+.mob-hamburger{background:none;border:none;color:var(--ow);font-size:1.4rem;cursor:pointer;padding:6px;line-height:1;display:flex;align-items:center;justify-content:center}
+
+/* ── DRAWER OVERLAY ── */
+.mob-drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.72);z-index:300;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.mob-drawer-overlay.open{display:block}
+
+/* ── MOBILE DRAWER ── */
+.mob-drawer{position:fixed;top:0;left:-290px;width:280px;height:100vh;background:var(--ch);border-right:1px solid var(--gb);z-index:400;transition:left .32s var(--ease);display:flex;flex-direction:column;padding:28px 0;overflow-y:auto}
+.mob-drawer.open{left:0}
+.mob-drawer .mob-sb-logo{padding:0 24px;margin-bottom:32px;text-align:center}
+.mob-drawer .mob-sb-logo h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:.12em;color:var(--wh)}
+.mob-drawer .mob-sb-logo h2 span{font-family:'Shippori Mincho',serif;color:var(--amb)}
+.mob-drawer .mob-sb-logo p{font-size:.64rem;color:var(--mu);letter-spacing:.18em;text-transform:uppercase;margin-top:4px}
+.mob-drawer .mob-sb-logo .sb-divider{width:32px;height:1px;background:var(--amb);margin:12px auto 0;opacity:.5}
+.mob-drawer .mob-section{padding:0 12px;margin-bottom:8px}
+.mob-drawer .mob-section-label{font-family:'Syne',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,191,0,0.4);padding:0 12px;margin-bottom:6px}
+.mob-drawer .mob-nav{list-style:none;display:flex;flex-direction:column;gap:2px}
+.mob-drawer .mob-nav li a{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:10px;font-family:'Syne',sans-serif;font-size:.76rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);transition:all .2s;border-left:2px solid transparent}
+.mob-drawer .mob-nav li a:hover{background:rgba(255,255,255,0.04);color:var(--ow)}
+.mob-drawer .mob-nav li a.active{background:var(--amb-d);color:var(--amb);border-left-color:var(--amb)}
+.mob-drawer .mob-nav li a .ic{font-size:16px;width:18px;text-align:center;opacity:.8}
+.mob-drawer-bottom{margin-top:auto;padding:0 12px}
+.mob-drawer-user{padding:14px 12px;background:var(--glass);border:1px solid var(--gb);border-radius:12px;display:flex;align-items:center;gap:10px;margin-bottom:12px}
+
+/* ── RESPONSIVE ── */
 @media(max-width:1024px){.stats-grid{grid-template-columns:1fr 1fr}.dash-main{padding:28px 24px}}
-@media(max-width:768px){.sidebar{display:none}.form-row{grid-template-columns:1fr}.stats-grid{grid-template-columns:1fr 1fr}.overview-grid{grid-template-columns:1fr}}
-@media(max-width:480px){.stats-grid{grid-template-columns:1fr}.login-card{padding:36px 28px}}
+@media(max-width:768px){
+  .sidebar{display:none}
+  .mob-topbar{display:flex}
+  .dash-main{padding:76px 16px 28px}
+  .form-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .overview-grid{grid-template-columns:1fr}
+  .topbar{margin-bottom:20px}
+  .search-bar input{width:120px}
+  .modal{padding:28px 20px}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:1fr}
+  .login-card{padding:36px 28px}
+  .dash-main{padding:72px 12px 20px}
+  .table-card-header{padding:16px}
+  .hdr-right{width:100%}
+  .search-bar{flex:1}
+  .search-bar input{width:100%}
+}
 </style>
 </head>
 <body>
@@ -236,6 +279,7 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
 <!-- DASHBOARD -->
 <div id="dashScreen" class="screen">
 
+  <!-- DESKTOP SIDEBAR -->
   <aside class="sidebar">
     <div class="sb-logo">
       <h2>YOSHI <span>ヨシ</span></h2>
@@ -270,6 +314,51 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
       <a href="../index.html" class="btn-ghost sm" style="width:100%;justify-content:center">← View Website</a>
     </div>
   </aside>
+
+  <!-- MOBILE TOPBAR -->
+  <div class="mob-topbar" id="mobTopbar">
+    <div class="mob-logo">YOSHI <span>ヨシ</span></div>
+    <button class="mob-hamburger" onclick="toggleDrawer()" aria-label="Open menu">☰</button>
+  </div>
+
+  <!-- DRAWER BACKDROP -->
+  <div class="mob-drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mob-drawer" id="mobDrawer">
+    <div class="mob-sb-logo">
+      <h2>YOSHI <span>ヨシ</span></h2>
+      <p>Control Panel</p>
+      <div class="sb-divider"></div>
+    </div>
+    <div class="mob-section">
+      <div class="mob-section-label">Main</div>
+      <ul class="mob-nav">
+        <li><a href="#" class="mob-link active" data-sec="overview" onclick="switchSectionMob(this);return false"><span class="ic">◈</span> Overview</a></li>
+        <li><a href="#" class="mob-link" data-sec="menuMgmt" onclick="switchSectionMob(this);return false"><span class="ic">⊞</span> Menu Items</a></li>
+        <li><a href="#" class="mob-link" data-sec="resMgmt" onclick="switchSectionMob(this);return false"><span class="ic">◷</span> Reservations</a></li>
+        <li><a href="#" class="mob-link" data-sec="catMgmt" onclick="switchSectionMob(this);return false"><span class="ic">🏷️</span> Categories</a></li>
+      </ul>
+    </div>
+    <div class="mob-section" style="margin-top:20px">
+      <div class="mob-section-label">System</div>
+      <ul class="mob-nav">
+        <li><a href="#" class="mob-link" data-sec="orders" onclick="switchSectionMob(this);return false"><span class="ic">📦</span> Orders</a></li>
+        <li><a href="#" class="mob-link" data-sec="settings" onclick="switchSectionMob(this);return false"><span class="ic">⚙</span> Settings</a></li>
+        <li><a href="#" onclick="doLogout();closeDrawer();return false"><span class="ic">↩</span> Logout</a></li>
+      </ul>
+    </div>
+    <div class="mob-drawer-bottom">
+      <div class="mob-drawer-user">
+        <div class="sb-avatar">AD</div>
+        <div class="sb-user-info">
+          <div class="name">Admin</div>
+          <div class="role">Owner · Full Access</div>
+        </div>
+      </div>
+      <a href="../index.html" class="btn-ghost sm" style="width:100%;justify-content:center">← View Website</a>
+    </div>
+  </div>
 
   <main class="dash-main">
     <div class="topbar">
@@ -324,7 +413,7 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
           <h3>Recent Reservations</h3>
           <button class="btn-ghost sm" onclick="switchSectionByName('resMgmt')">View All</button>
         </div>
-        <div id="recentResWrap"></div>
+        <div class="table-wrap" id="recentResWrap"></div>
       </div>
     </div>
 
@@ -342,7 +431,7 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
             <button class="btn-amber" style="padding:9px 20px;font-size:.74rem;width:auto" onclick="openAddModal()">+ Add Item</button>
           </div>
         </div>
-        <div id="menuTableWrap"></div>
+        <div class="table-wrap" id="menuTableWrap"></div>
       </div>
     </div>
 
@@ -356,7 +445,7 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
             <span id="resCountBadge" style="font-family:'Syne',sans-serif;font-size:.7rem;color:var(--mu)"></span>
           </div>
         </div>
-        <div id="resTableWrap"></div>
+        <div class="table-wrap" id="resTableWrap"></div>
       </div>
     </div>
 
@@ -367,11 +456,11 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
           <h3>📂 Manage Categories</h3>
           <button class="btn-amber" style="width:auto;padding:9px 20px" onclick="openAddCategoryModal()">+ Add Category</button>
         </div>
-        <div id="categoryTableWrap"></div>
+        <div class="table-wrap" id="categoryTableWrap"></div>
       </div>
     </div>
 
-    <!-- ORDERS MANAGEMENT -->
+    <!-- ORDERS -->
     <div id="sec-orders" class="section">
       <div class="table-card">
         <div class="table-card-header">
@@ -383,7 +472,7 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
             </div>
           </div>
         </div>
-        <div id="ordersTableWrap"></div>
+        <div class="table-wrap" id="ordersTableWrap"></div>
       </div>
     </div>
 
@@ -411,7 +500,7 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
 </div>
 
 
-<!-- ADD / EDIT MENU MODAL (with Image Upload) -->
+<!-- ADD / EDIT MENU MODAL -->
 <div class="modal-backdrop" id="menuModal">
   <div class="modal">
     <h2 id="modalTitle">Add <span>Menu Item</span></h2>
@@ -420,31 +509,26 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
     <div class="form-row">
       <div class="fg">
         <label>Category *</label>
-        <select id="iCat">
-          <option value="">Loading categories...</option>
-        </select>
+        <select id="iCat"><option value="">Loading categories...</option></select>
       </div>
       <div class="fg"><label>Price (৳) *</label><input type="number" id="iPrice" placeholder="0" min="0"/></div>
     </div>
     <div class="fg"><label>Description</label><textarea id="iDesc" placeholder="Describe this dish in a few words..."></textarea></div>
-    
-    <!-- ইমেজ আপলোড সেকশন -->
     <div class="fg">
       <label>Item Image</label>
-      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <input type="file" id="iImgFile" accept="image/*" style="flex:1; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--gb); border-radius: 10px; color: var(--wh);"/>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <input type="file" id="iImgFile" accept="image/*" style="flex:1;padding:10px;background:rgba(255,255,255,0.05);border:1px solid var(--gb);border-radius:10px;color:var(--wh)"/>
         <button type="button" class="btn-ghost sm" onclick="uploadImage()" style="margin:0">📤 Upload</button>
       </div>
       <input type="hidden" id="iImg" value=""/>
-      <div id="uploadProgress" style="display:none; margin-top: 8px;">
-        <div style="width:100%; height:4px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden;">
-          <div id="uploadProgressBar" style="width:0%; height:100%; background:var(--amb); transition:width 0.3s;"></div>
+      <div id="uploadProgress" style="display:none;margin-top:8px">
+        <div style="width:100%;height:4px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden">
+          <div id="uploadProgressBar" style="width:0%;height:100%;background:var(--amb);transition:width 0.3s"></div>
         </div>
-        <p style="font-size:0.7rem; color:var(--mu); margin-top:4px">Uploading...</p>
+        <p style="font-size:0.7rem;color:var(--mu);margin-top:4px">Uploading...</p>
       </div>
       <img id="imgPreview" class="img-preview" alt="Preview"/>
     </div>
-    
     <div class="fg" style="display:flex;align-items:center;gap:16px;flex-direction:row">
       <label style="margin:0;flex:1">Available to order</label>
       <label class="toggle-sw"><input type="checkbox" id="iAvail" checked/><span class="toggle-track"></span></label>
@@ -466,18 +550,9 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
   <div class="modal">
     <h2 id="catModalTitle">Add <span>Category</span></h2>
     <input type="hidden" id="editCatId"/>
-    <div class="fg">
-      <label>Category Name *</label>
-      <input type="text" id="catName" placeholder="e.g. Noodles, Seafood, Desserts"/>
-    </div>
-    <div class="fg">
-      <label>Icon (Emoji)</label>
-      <input type="text" id="catIcon" placeholder="🍜" maxlength="2" value="🍽"/>
-    </div>
-    <div class="fg">
-      <label>Display Order</label>
-      <input type="number" id="catOrder" placeholder="0" value="0"/>
-    </div>
+    <div class="fg"><label>Category Name *</label><input type="text" id="catName" placeholder="e.g. Noodles, Seafood, Desserts"/></div>
+    <div class="fg"><label>Icon (Emoji)</label><input type="text" id="catIcon" placeholder="🍜" maxlength="2" value="🍽"/></div>
+    <div class="fg"><label>Display Order</label><input type="number" id="catOrder" placeholder="0" value="0"/></div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal('categoryModal')">Cancel</button>
       <button class="btn-amber" onclick="saveCategory()">Save Category</button>
@@ -501,7 +576,7 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
   </div>
 </div>
 
-<!-- VIEW RESERVATION MODAL (also used for order details) -->
+<!-- VIEW RESERVATION / ORDER MODAL -->
 <div class="modal-backdrop" id="resModal">
   <div class="modal">
     <h2 id="resModalTitle">Reservation <span>Details</span></h2>
@@ -515,10 +590,6 @@ input,select,textarea{font-family:'DM Sans',sans-serif;font-size:1rem}
 
 
 <script>
-// ══════════════════════════════════════════════════════
-//  DYNAMIC ADMIN PANEL WITH API
-// ══════════════════════════════════════════════════════
-
 const ADMIN_USER = 'admin';
 const ADMIN_PASS = 'admin123';
 
@@ -554,6 +625,25 @@ function doLogout() {
   document.getElementById('loginUser').value = '';
   document.getElementById('loginPass').value = '';
   document.getElementById('loginMsg').textContent = '';
+  closeDrawer();
+}
+
+// ── MOBILE DRAWER ───────────────────────────────────
+function toggleDrawer() {
+  document.getElementById('mobDrawer').classList.toggle('open');
+  document.getElementById('drawerOverlay').classList.toggle('open');
+}
+function closeDrawer() {
+  document.getElementById('mobDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+}
+function switchSectionMob(link) {
+  const sec = link.dataset.sec;
+  const desktopLink = document.querySelector(`.sb-nav a[data-sec="${sec}"]`);
+  if (desktopLink) switchSection(desktopLink);
+  document.querySelectorAll('.mob-link').forEach(a => a.classList.remove('active'));
+  link.classList.add('active');
+  closeDrawer();
 }
 
 // ── API CALLS ───────────────────────────────────────
@@ -562,26 +652,17 @@ async function loadMenuFromAPI() {
     const res = await fetch('/api/menu');
     if (!res.ok) throw new Error('Failed to fetch menu');
     MENU = await res.json();
-    console.log('Menu loaded:', MENU.length, 'items');
     return MENU;
-  } catch (err) {
-    console.error('Error loading menu:', err);
-    MENU = [];
-    return [];
-  }
+  } catch (err) { MENU = []; return []; }
 }
 
 async function loadReservationsFromAPI() {
   try {
     const res = await fetch('/api/reservations');
-    if (!res.ok) throw new Error('Failed to fetch reservations');
+    if (!res.ok) throw new Error('Failed');
     RESERVATIONS = await res.json();
     return RESERVATIONS;
-  } catch (err) {
-    console.error('Error loading reservations:', err);
-    RESERVATIONS = [];
-    return [];
-  }
+  } catch (err) { RESERVATIONS = []; return []; }
 }
 
 async function loadCategories() {
@@ -589,31 +670,19 @@ async function loadCategories() {
     const res = await fetch('/api/categories');
     if (res.ok) {
       categories = await res.json();
-      console.log('Categories loaded:', categories);
       renderCategoryTable();
       updateCategorySelect();
       return categories;
     }
-  } catch (err) {
-    console.error('Error loading categories:', err);
-    categories = [];
-  }
+  } catch (err) { categories = []; }
 }
 
 async function loadOrders() {
   try {
     const res = await fetch('/api/orders');
-    if (res.ok) {
-      allOrders = await res.json();
-      console.log('✅ Orders loaded:', allOrders.length);
-      renderOrdersTable();
-    } else {
-      console.log('❌ Failed to load orders');
-    }
-  } catch (err) {
-    console.error('❌ Error loading orders:', err);
-    allOrders = [];
-  }
+    if (res.ok) { allOrders = await res.json(); renderOrdersTable(); }
+    else { allOrders = []; }
+  } catch (err) { allOrders = []; }
 }
 
 async function updateOrderStatus(orderId, newStatus) {
@@ -623,31 +692,23 @@ async function updateOrderStatus(orderId, newStatus) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: newStatus })
     });
-    if (res.ok) {
-      showToast(`✅ Order status updated to ${newStatus}`);
-      await loadOrders();
-    } else {
-      showToast('❌ Failed to update status');
-    }
-  } catch (err) {
-    showToast('Error updating status');
-  }
+    if (res.ok) { showToast(`✅ Order status updated to ${newStatus}`); await loadOrders(); }
+    else showToast('❌ Failed to update status');
+  } catch (err) { showToast('Error updating status'); }
 }
 
 function viewOrderDetails(orderId) {
   const order = allOrders.find(o => o._id === orderId);
   if (!order) return;
-  
   let itemsHtml = '';
   if (order.items && order.items.length > 0) {
     order.items.forEach(item => {
-      itemsHtml += `<tr><td>${escapeHtml(item.name)}</td></td><td>৳ ${item.price}</td><td>${item.quantity}</td><td>৳ ${item.price * item.quantity}</td></tr>`;
+      itemsHtml += `<tr><td>${escapeHtml(item.name)}</td><td>৳ ${item.price}</td><td>${item.quantity}</td><td>৳ ${item.price * item.quantity}</td></tr>`;
     });
   }
-  
   const modalContent = `
-    <div style="max-height: 400px; overflow-y: auto;">
-      <div style="margin-bottom: 20px; padding: 15px; background: rgba(255,191,0,0.05); border-radius: 12px;">
+    <div style="max-height:400px;overflow-y:auto">
+      <div style="margin-bottom:20px;padding:15px;background:rgba(255,191,0,0.05);border-radius:12px">
         <p><strong>Order #:</strong> ${order.orderNumber}</p>
         <p><strong>Customer:</strong> ${escapeHtml(order.customerName)}</p>
         <p><strong>Phone:</strong> ${order.customerPhone}</p>
@@ -655,38 +716,33 @@ function viewOrderDetails(orderId) {
         <p><strong>Status:</strong> <span class="badge-status ${order.status}">${order.status}</span></p>
         <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
       </div>
-      <h4 style="color: var(--amb);">Items Ordered:</h4>
+      <h4 style="color:var(--amb)">Items Ordered:</h4>
       <table class="data-table" style="width:100%">
         <thead><tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th></tr></thead>
         <tbody>${itemsHtml}</tbody>
         <tfoot><tr><td colspan="3" style="text-align:right"><strong>Total:</strong></td><td><strong>৳ ${order.total}</strong></td></tr></tfoot>
       </table>
-    </div>
-  `;
-  
+    </div>`;
   document.getElementById('resModalTitle').innerHTML = 'Order <span>Details</span>';
   document.getElementById('resModalBody').innerHTML = modalContent;
   document.getElementById('resActionBtn').style.display = 'none';
   openModal('resModal');
 }
 
-// ── UI RENDER FUNCTIONS ─────────────────────────────
+// ── RENDER FUNCTIONS ────────────────────────────────
 function renderOrdersTable() {
   const wrap = document.getElementById('ordersTableWrap');
   if (!wrap) return;
-  
   const q = (document.getElementById('orderSearch')?.value || '').toLowerCase();
-  const filtered = allOrders.filter(o => 
-    o.customerName.toLowerCase().includes(q) || 
+  const filtered = allOrders.filter(o =>
+    o.customerName.toLowerCase().includes(q) ||
     o.customerPhone.includes(q) ||
     (o.orderNumber || '').toLowerCase().includes(q)
   );
-  
   if (filtered.length === 0) {
     wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">📦</div><h4>No orders yet</h4><p>Customer orders will appear here automatically.</p></div>`;
     return;
   }
-  
   const rows = filtered.map(order => `
     <tr>
       <td><strong>${order.orderNumber}</strong></td>
@@ -700,26 +756,17 @@ function renderOrdersTable() {
         <div class="action-cell">
           <button class="btn-edit" onclick="viewOrderDetails('${order._id}')">View</button>
           <select onchange="updateOrderStatus('${order._id}', this.value)" class="status-select">
-            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
-            <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
-            <option value="preparing" ${order.status === 'preparing' ? 'selected' : ''}>Preparing</option>
-            <option value="ready" ${order.status === 'ready' ? 'selected' : ''}>Ready</option>
-            <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
-            <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+            <option value="pending" ${order.status==='pending'?'selected':''}>Pending</option>
+            <option value="confirmed" ${order.status==='confirmed'?'selected':''}>Confirmed</option>
+            <option value="preparing" ${order.status==='preparing'?'selected':''}>Preparing</option>
+            <option value="ready" ${order.status==='ready'?'selected':''}>Ready</option>
+            <option value="delivered" ${order.status==='delivered'?'selected':''}>Delivered</option>
+            <option value="cancelled" ${order.status==='cancelled'?'selected':''}>Cancelled</option>
           </select>
         </div>
       </td>
-    </tr>
-  `).join('');
-  
-  wrap.innerHTML = `
-    <table class="data-table">
-      <thead>
-        <tr><th>Order #</th><th>Customer</th><th>Phone</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>
-  `;
+    </tr>`).join('');
+  wrap.innerHTML = `<table class="data-table"><thead><tr><th>Order #</th><th>Customer</th><th>Phone</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function updateStats() {
@@ -733,7 +780,6 @@ function renderMenuTable() {
   if (!wrap) return;
   const q = (document.getElementById('menuSearch')?.value || '').toLowerCase();
   const items = MENU.filter(i => i.name.toLowerCase().includes(q) || (i.category || '').toLowerCase().includes(q));
-
   if (MENU.length === 0) {
     wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">⊞</div><h4>No menu items yet</h4><p>Click "Add Item" to create your first dish.</p></div>`;
     return;
@@ -742,7 +788,6 @@ function renderMenuTable() {
     wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">⊕</div><h4>No results</h4><p>No items match your search.</p></div>`;
     return;
   }
-
   const rows = items.map(item => {
     const categoryName = getCategoryName(item.category);
     return `
@@ -783,7 +828,6 @@ function getCategoryName(slug) {
   const cat = categories.find(c => c.slug === slug);
   return cat ? cat.name : slug;
 }
-
 function getCategoryIcon(slug) {
   const cat = categories.find(c => c.slug === slug);
   return cat?.icon || '🍽';
@@ -792,34 +836,24 @@ function getCategoryIcon(slug) {
 function renderCategoryTable() {
   const wrap = document.getElementById('categoryTableWrap');
   if (!wrap) return;
-  
   if (categories.length === 0) {
     wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">🏷️</div><h4>No Categories Yet</h4><p>Click "Add Category" to create your first category.</p></div>`;
     return;
   }
-  
   const rows = categories.map(cat => `
     <tr>
       <td><span style="font-size:1.2rem">${cat.icon || '🍽'}</span> <strong>${escapeHtml(cat.name)}</strong></td>
       <td><code style="background:rgba(255,255,255,0.05);padding:4px 8px;border-radius:6px">${cat.slug}</code></td>
       <td>${cat.order || 0}</td>
       <td>${cat.isActive !== false ? '✅ Active' : '❌ Inactive'}</td>
-      <td>
-        <div class="action-cell">
-          <button class="btn-edit" onclick="editCategory('${cat._id}')">Edit</button>
-          <button class="btn-del" onclick="deleteCategory('${cat._id}')">Delete</button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
-  
-  wrap.innerHTML = `<table class="data-table"><thead><tr><th>Category</th><th>Slug</th><th>Order</th><th>Status</th><th>Actions</th></tr></thead><tbody>${rows}</tbody><table>`;
+      <td><div class="action-cell"><button class="btn-edit" onclick="editCategory('${cat._id}')">Edit</button><button class="btn-del" onclick="deleteCategory('${cat._id}')">Delete</button></div></td>
+    </tr>`).join('');
+  wrap.innerHTML = `<table class="data-table"><thead><tr><th>Category</th><th>Slug</th><th>Order</th><th>Status</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function updateCategorySelect() {
   const select = document.getElementById('iCat');
   if (!select) return;
-  
   select.innerHTML = '<option value="">Select Category</option>';
   categories.forEach(cat => {
     const option = document.createElement('option');
@@ -836,12 +870,10 @@ function renderResTable() {
   const items = RESERVATIONS.filter(r => r.name.toLowerCase().includes(q) || (r.phone || '').includes(q));
   const badge = document.getElementById('resCountBadge');
   if (badge) badge.textContent = RESERVATIONS.length > 0 ? items.length + ' of ' + RESERVATIONS.length : '';
-
   if (RESERVATIONS.length === 0) {
     wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">◷</div><h4>No reservations yet</h4></div>`;
     return;
   }
-  
   const rows = items.map(r => `
     <tr>
       <td><strong>${escapeHtml(r.name)}</strong></td>
@@ -851,8 +883,7 @@ function renderResTable() {
       <td>${r.guests || '—'}</td>
       <td><span class="badge-status ${r.status}">${r.status}</span></td>
       <td><div class="action-cell"><button class="btn-edit" onclick="viewRes('${r._id}')">View</button><button class="btn-del" onclick="deleteRes('${r._id}')">Delete</button></div></td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
   wrap.innerHTML = `<table class="data-table"><thead><tr><th>Name</th><th>Phone</th><th>Date</th><th>Time</th><th>Guests</th><th>Status</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
@@ -864,49 +895,28 @@ function renderRecentRes() {
     return;
   }
   const rows = RESERVATIONS.slice(0, 5).map(r => `
-    <tr><td><strong>${escapeHtml(r.name)}</strong></td><td>${r.date || '—'}</td><td>${r.time || '—'}</td><td>${r.guests || '—'}</td><td><span class="badge-status ${r.status}">${r.status}</span></td><td><button class="btn-edit" onclick="viewRes('${r._id}')">View</button></td></tr>
-  `).join('');
+    <tr><td><strong>${escapeHtml(r.name)}</strong></td><td>${r.date || '—'}</td><td>${r.time || '—'}</td><td>${r.guests || '—'}</td><td><span class="badge-status ${r.status}">${r.status}</span></td><td><button class="btn-edit" onclick="viewRes('${r._id}')">View</button></td></tr>`).join('');
   wrap.innerHTML = `<table class="data-table"><thead><tr><th>Name</th><th>Date</th><th>Time</th><th>Guests</th><th>Status</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
-// ── IMAGE UPLOAD FUNCTION ──────────────────────────────
+// ── IMAGE UPLOAD ────────────────────────────────────
 async function uploadImage() {
   const fileInput = document.getElementById('iImgFile');
   const file = fileInput.files[0];
-  
-  if (!file) {
-    showToast('Please select an image file first');
-    return;
-  }
-  
-  if (!file.type.startsWith('image/')) {
-    showToast('Please select an image file (JPEG, PNG, GIF, WEBP)');
-    return;
-  }
-  
-  if (file.size > 5 * 1024 * 1024) {
-    showToast('Image size should be less than 5MB');
-    return;
-  }
-  
+  if (!file) { showToast('Please select an image file first'); return; }
+  if (!file.type.startsWith('image/')) { showToast('Please select an image file'); return; }
+  if (file.size > 5 * 1024 * 1024) { showToast('Image size should be less than 5MB'); return; }
   const formData = new FormData();
   formData.append('image', file);
-  
   const progressDiv = document.getElementById('uploadProgress');
   const progressBar = document.getElementById('uploadProgressBar');
   progressDiv.style.display = 'block';
   progressBar.style.width = '0%';
-  
   try {
     const xhr = new XMLHttpRequest();
-    
     xhr.upload.addEventListener('progress', (e) => {
-      if (e.lengthComputable) {
-        const percent = (e.loaded / e.total) * 100;
-        progressBar.style.width = percent + '%';
-      }
+      if (e.lengthComputable) progressBar.style.width = (e.loaded / e.total * 100) + '%';
     });
-    
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         const response = JSON.parse(xhr.responseText);
@@ -915,32 +925,18 @@ async function uploadImage() {
           previewImg();
           showToast('✅ Image uploaded successfully!');
           fileInput.value = '';
-        } else {
-          showToast('❌ Upload failed: ' + (response.error || 'Unknown error'));
-        }
-      } else {
-        showToast('❌ Upload failed. Please try again.');
-      }
+        } else showToast('❌ Upload failed: ' + (response.error || 'Unknown error'));
+      } else showToast('❌ Upload failed. Please try again.');
       progressDiv.style.display = 'none';
       progressBar.style.width = '0%';
     });
-    
-    xhr.addEventListener('error', () => {
-      showToast('❌ Network error. Please try again.');
-      progressDiv.style.display = 'none';
-    });
-    
+    xhr.addEventListener('error', () => { showToast('❌ Network error.'); progressDiv.style.display = 'none'; });
     xhr.open('POST', '/api/upload');
     xhr.send(formData);
-    
-  } catch (err) {
-    console.error('Upload error:', err);
-    showToast('❌ Failed to upload image');
-    progressDiv.style.display = 'none';
-  }
+  } catch (err) { showToast('❌ Failed to upload image'); progressDiv.style.display = 'none'; }
 }
 
-// ── MODAL FUNCTIONS ─────────────────────────────────
+// ── MODALS ──────────────────────────────────────────
 function openAddModal() {
   document.getElementById('modalTitle').innerHTML = 'Add <span>Menu Item</span>';
   document.getElementById('editId').value = '';
@@ -973,7 +969,7 @@ function openEditModal(id) {
   document.getElementById('modalMsg').textContent = '';
   const preview = document.getElementById('imgPreview');
   if (item.imageUrl) { preview.src = item.imageUrl; preview.classList.add('show'); }
-  else { preview.classList.remove('show'); }
+  else preview.classList.remove('show');
   openModal('menuModal');
 }
 
@@ -1003,49 +999,30 @@ async function saveMenuItem() {
   const name = document.getElementById('iName').value.trim();
   const price = parseFloat(document.getElementById('iPrice').value);
   const msg = document.getElementById('modalMsg');
-  
   if (!name) { msg.textContent = 'Item name is required.'; msg.className = 'form-msg err'; return; }
   if (!price || price < 0) { msg.textContent = 'A valid price is required.'; msg.className = 'form-msg err'; return; }
-
   const id = document.getElementById('editId').value;
   const data = {
-    name: name,
-    category: document.getElementById('iCat').value,
-    price: price,
-    description: document.getElementById('iDesc').value.trim(),
+    name, category: document.getElementById('iCat').value,
+    price, description: document.getElementById('iDesc').value.trim(),
     imageUrl: document.getElementById('iImg').value.trim(),
     available: document.getElementById('iAvail').checked,
     featured: document.getElementById('iFeatured').checked,
   };
-
   try {
-    let response;
-    if (id) {
-      response = await fetch(`/api/menu/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } else {
-      response = await fetch('/api/menu', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    }
-    
+    const response = await fetch(id ? `/api/menu/${id}` : '/api/menu', {
+      method: id ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
     if (!response.ok) throw new Error('Failed to save');
-    
     showToast('✓ ' + data.name + ' saved successfully!');
     closeModal('menuModal');
     await loadMenuFromAPI();
     updateStats();
     renderMenuTable();
     renderRecentRes();
-  } catch (err) {
-    msg.textContent = err.message;
-    msg.className = 'form-msg err';
-  }
+  } catch (err) { msg.textContent = err.message; msg.className = 'form-msg err'; }
 }
 
 async function saveCategory() {
@@ -1054,61 +1031,26 @@ async function saveCategory() {
   const icon = document.getElementById('catIcon').value.trim() || '🍽';
   const order = parseInt(document.getElementById('catOrder').value) || 0;
   const msgEl = document.getElementById('catModalMsg');
-  
-  if (!name) {
-    msgEl.textContent = 'Category name is required';
-    msgEl.className = 'form-msg err';
-    return;
-  }
-  
-  const data = { name, icon, order };
-  
+  if (!name) { msgEl.textContent = 'Category name is required'; msgEl.className = 'form-msg err'; return; }
   try {
-    let res;
-    if (id) {
-      res = await fetch(`/api/categories/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } else {
-      res = await fetch('/api/categories', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    }
-    
-    if (res.ok) {
-      showToast(id ? '✅ Category updated!' : '✅ Category added!');
-      closeModal('categoryModal');
-      await loadCategories();
-    } else {
-      const error = await res.json();
-      msgEl.textContent = error.error || 'Failed to save category';
-      msgEl.className = 'form-msg err';
-    }
-  } catch (err) {
-    msgEl.textContent = 'Network error. Please try again.';
-    msgEl.className = 'form-msg err';
-  }
+    const res = await fetch(id ? `/api/categories/${id}` : '/api/categories', {
+      method: id ? 'PUT' : 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, icon, order })
+    });
+    if (res.ok) { showToast(id ? '✅ Category updated!' : '✅ Category added!'); closeModal('categoryModal'); await loadCategories(); }
+    else { const error = await res.json(); msgEl.textContent = error.error || 'Failed to save category'; msgEl.className = 'form-msg err'; }
+  } catch (err) { msgEl.textContent = 'Network error. Please try again.'; msgEl.className = 'form-msg err'; }
 }
 
 async function deleteCategory(id) {
   const cat = categories.find(c => c._id === id);
-  if (!confirm(`Delete category "${cat?.name}"? Menu items will still exist but show as uncategorized.`)) return;
-  
+  if (!confirm(`Delete category "${cat?.name}"?`)) return;
   try {
     const res = await fetch(`/api/categories/${id}`, { method: 'DELETE' });
-    if (res.ok) {
-      showToast(`✅ "${cat?.name}" deleted`);
-      await loadCategories();
-    } else {
-      showToast('Failed to delete category');
-    }
-  } catch (err) {
-    showToast('Error deleting category');
-  }
+    if (res.ok) { showToast(`✅ "${cat?.name}" deleted`); await loadCategories(); }
+    else showToast('Failed to delete category');
+  } catch (err) { showToast('Error deleting category'); }
 }
 
 function openDeleteModal(id) {
@@ -1126,9 +1068,7 @@ async function confirmDelete() {
     await loadMenuFromAPI();
     updateStats();
     renderMenuTable();
-  } catch (err) {
-    showToast('Error deleting item');
-  }
+  } catch (err) { showToast('Error deleting item'); }
   pendingDeleteId = null;
   closeModal('delModal');
 }
@@ -1139,9 +1079,7 @@ async function toggleAvail(id) {
     await loadMenuFromAPI();
     updateStats();
     renderMenuTable();
-  } catch (err) {
-    showToast('Error updating status');
-  }
+  } catch (err) { showToast('Error updating status'); }
 }
 
 function viewRes(id) {
@@ -1149,7 +1087,7 @@ function viewRes(id) {
   const r = RESERVATIONS.find(x => x._id === id);
   if (!r) return;
   document.getElementById('resModalTitle').innerHTML = 'Reservation <span>Details</span>';
-  document.getElementById('resModalBody').innerHTML = `<table style="width:100%"><tr><td>Name<br><strong>${escapeHtml(r.name)}</strong></td><tr><td>Phone<br>${r.phone || '—'}</td></tr><tr><td>Date<br>${r.date || '—'}</td><tr><td>Time<br>${r.time || '—'}</td><tr><td>Guests<br>${r.guests || '—'}</td><tr><td>Status<br><span class="badge-status ${r.status}">${r.status}</span></td></tr></table>`;
+  document.getElementById('resModalBody').innerHTML = `<table style="width:100%"><tr><td>Name<br><strong>${escapeHtml(r.name)}</strong></td></tr><tr><td>Phone<br>${r.phone || '—'}</td></tr><tr><td>Date<br>${r.date || '—'}</td></tr><tr><td>Time<br>${r.time || '—'}</td></tr><tr><td>Guests<br>${r.guests || '—'}</td></tr><tr><td>Status<br><span class="badge-status ${r.status}">${r.status}</span></td></tr></table>`;
   const btn = document.getElementById('resActionBtn');
   btn.style.display = 'flex';
   btn.textContent = r.status === 'confirmed' ? 'Mark as Pending' : 'Confirm Reservation';
@@ -1171,9 +1109,7 @@ async function toggleResStatus() {
     renderRecentRes();
     closeModal('resModal');
     showToast(`Reservation ${newStatus}!`);
-  } catch (err) {
-    showToast('Error updating status');
-  }
+  } catch (err) { showToast('Error updating status'); }
 }
 
 async function deleteRes(id) {
@@ -1185,16 +1121,14 @@ async function deleteRes(id) {
     renderRecentRes();
     updateStats();
     showToast('Reservation deleted');
-  } catch (err) {
-    showToast('Error deleting reservation');
-  }
+  } catch (err) { showToast('Error deleting reservation'); }
 }
 
 function previewImg() {
   const url = document.getElementById('iImg').value.trim();
   const preview = document.getElementById('imgPreview');
   if (url) { preview.src = url; preview.classList.add('show'); preview.onerror = () => preview.classList.remove('show'); }
-  else { preview.classList.remove('show'); }
+  else preview.classList.remove('show');
 }
 
 function saveSettings() {
@@ -1209,15 +1143,10 @@ function saveSettings() {
 
 function escapeHtml(str) {
   if (!str) return '';
-  return str.replace(/[&<>]/g, function(m) {
-    if (m === '&') return '&amp;';
-    if (m === '<') return '&lt;';
-    if (m === '>') return '&gt;';
-    return m;
-  });
+  return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;');
 }
 
-// ── INITIALIZATION ─────────────────────────────────
+// ── INIT ────────────────────────────────────────────
 async function initDash() {
   await loadCategories();
   await loadMenuFromAPI();
@@ -1230,10 +1159,7 @@ async function initDash() {
   renderResTable();
 }
 
-function refreshAll() {
-  initDash();
-  showToast('Refreshed from database!');
-}
+function refreshAll() { initDash(); showToast('Refreshed from database!'); }
 
 function startClock() {
   function tick() {
@@ -1274,7 +1200,6 @@ function showToast(msg) {
   setTimeout(() => t.remove(), 2800);
 }
 
-// Make functions global
 window.updateOrderStatus = updateOrderStatus;
 window.viewOrderDetails = viewOrderDetails;
 window.filterMenuFromSlider = function(category) {};
